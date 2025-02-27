@@ -5,16 +5,36 @@ from django.http import HttpResponse
 
 # Define the home view function
 def home(request):
-    # Send a simple HTML response
     return render(request, 'dashboard.html')
+
+# ------------- User details views -------------
 
 def user_details(request):
     return render(request, 'userdetails.html')
 
+# ------------- Pupdate views -------------
+
 def pupdates(request):
     return render(request, 'pupdates/feed.html', {'pups': pups} )
 
-# views.py
+def pupdates_details(request):
+    return render(request, 'pupdates/details.html')
+
+# ------------- Sponsorship views -------------
+
+def my_sponsorship(request):
+    return render(request, 'sponsorships/mysponsorship.html')
+
+def my_subscription(request):
+    return render(request, 'sponsorships/mysubscription.html')
+
+
+
+
+
+
+
+# ------------- Dummy Class and Data -------------
 
 class Pup:
     def __init__(self, name, breed, description, age):
