@@ -6,7 +6,7 @@ from django.http import HttpResponse
 # Define the home view function
 def home(request):
     # Send a simple HTML response
-    return HttpResponse('Hey, got any dogs!?')
+    return render(request, 'dashboard.html')
 
 def user_details(request):
     return render(request, 'userdetails.html')
