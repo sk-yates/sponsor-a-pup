@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="" />
+{% endblock %} 
+{% block content %}
+<section class="pup-container">
+  <div class="pup-img">
+    <img src="" alt="Picture of the chosen pup" />
+  </div>
+  <div class="pup-details">
+    <h1>{{ pup.name }}</h1>
+    {% if pup.age > 0 %}
+      <h2>A {{ pup.age }} year old {{ pup.breed }}</h2>
+    {% else %}
+      <h2>A {{ pup.breed }} puppy.</h2>
+    {% endif %}
+    <p>{{ pup.description }}</p>
+  </div>
+</section>
+{% endblock %}

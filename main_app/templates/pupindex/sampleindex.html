@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="{% static '' %}"/>
+{% endblock %} 
+{% block content %}
+
+<section class="page-header">
+  <h1> Your latest 'pupdates' </h1>
+  <img src="{% static '' %}" alt="alt-text for image" />
+  <img src="{% static '' %}" alt="alt-text for image" />
+  <img src="{% static '' %}" alt="alt-text for image" />
+  <img src="{% static '' %}" alt="alt-text for image" />
+</section>
+
+<section class="card-container">
+  {% for pup in pups %}
+    <div class="card">
+      <div class="card-content">
+        <div class="card-img-container">
+          <img
+            src="{% static '' %}"
+            alt="alt-text for image"
+          />
+        </div>
+        <h2 class="card-title">{{ pup.name }}</h2>
+        {% if pup.age > 0 %}
+        <p>A {{ pup.age }} year old {{ pup.breed }}</p>
+        {% else %}
+        <p>A {{ pup.breed }} puppy.</p>
+        {% endif %}
+        <p><small>{{ pup.description }}</small></p>
+        <li><a href="/pupdates-details">Pup Details</a></li>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
