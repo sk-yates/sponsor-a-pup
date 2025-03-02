@@ -1,10 +1,14 @@
 {% extends 'base.html' %} 
+{% load static %} 
+{% block head %}
+<link rel="stylesheet" href="{% static '' %}"/>
+{% endblock %}
 {% block content %}
 <h1>User Details Page</h1>
 <hr />
 <p class="page-content">
 ==================================================================================
-This page will display the pup details from the feed cards. 
+This page will display the user details from the nav-bar. 
 ==================================================================================
 </p>
 {% endblock %}

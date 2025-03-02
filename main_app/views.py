@@ -1,32 +1,79 @@
 from django.shortcuts import render
+from .models import Puppy
 
 # Import HttpResponse to send text-based responses
 from django.http import HttpResponse
 
-# Define the home view function
+
+
+# ++++++++++++++++++++++++++ SPONSOR Sign-up ++++++++++++++++++++++++++
+
+
+
+
+
+
+# ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
+# ------------- Home/Dashboard views -------------
 def home(request):
     return render(request, 'dashboard.html')
 
 # ------------- User details views -------------
-
 def user_details(request):
-    return render(request, 'userdetails.html')
+    return render(request, 'userdetails/userdetails.html')
 
 # ------------- Pupdate views -------------
-
 def pupdates(request):
-    return render(request, 'pupdates/feed.html', {'pups': pups} )
+    return render(request, 'pupdates/feed.html', {'pups': sample_pups})
 
 def pupdates_details(request):
-    return render(request, 'pupdates/details.html')
+    return render(request, 'pupdates/pupdatedetails.html')
 
 # ------------- Sponsorship views -------------
-
 def my_sponsorship(request):
     return render(request, 'sponsorships/mysponsorship.html')
 
 def my_subscription(request):
     return render(request, 'sponsorships/mysubscription.html')
+
+
+# ++++++++++++++++++++++++++ STAFF VIEWS ++++++++++++++++++++++++++
+# ------------- Pup index views -------------
+def sample_pup_index(request):
+    return render(request, 'pupindex/sampleindex.html', {'pups': sample_pups})
+
+def pup_index(request):
+    pups = Puppy.objects.all()
+    return render(request, 'pupindex/pupindex.html', {'pups': pups})
+
+
+
+# ------------- Pup CRUD views -------------
+# C - Create
+
+# R - Read
+def pup_profile(request, pup_id):
+    pup = Puppy.objects.get(id=pup_id)
+    return render(request, 'pupprofiles/pupprofile.html', {'pup': pup})
+
+# U - Update
+
+# D - Delete
+
+# ------------- User DB views -------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -36,7 +83,7 @@ def my_subscription(request):
 
 # ------------- Dummy Class and Data -------------
 
-class Pup:
+class Sample_pup:
     def __init__(self, name, breed, description, age):
         self.name = name
         self.breed = breed
@@ -44,9 +91,9 @@ class Pup:
         self.age = age
 
 # Create a list of Cat instances
-pups = [
-    Pup('Lolo', 'tabby', 'Kinda rude.', 3),
-    Pup('Sachi', 'tortoiseshell', 'Looks like a turtle.', 0),
-    Pup('Fancy', 'bombay', 'Happy fluff ball.', 4),
-    Pup('Bonk', 'selkirk rex', 'Meows loudly.', 6)
+sample_pups = [
+    Sample_pup('Lolo', 'tabby', 'Kinda rude.', 3),
+    Sample_pup('Sachi', 'tortoiseshell', 'Looks like a turtle.', 0),
+    Sample_pup('Fancy', 'bombay', 'Happy fluff ball.', 4),
+    Sample_pup('Bonk', 'selkirk rex', 'Meows loudly.', 6)
 ]
