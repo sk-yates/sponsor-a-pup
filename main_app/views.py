@@ -7,8 +7,9 @@ from django.http import HttpResponse
 
 
 
-# ++++++++++++++++++++++++++ SPONSOR Sign-up ++++++++++++++++++++++++++
-
+# ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
+class Login(LoginView):
+    template_name = 'login.html'
 
 
 

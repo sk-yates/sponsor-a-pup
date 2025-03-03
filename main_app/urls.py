@@ -4,10 +4,8 @@ from . import views # Import views to connect routes to view functions
 urlpatterns = [
     # Routes will be added here
 
-# ++++++++++++++++++++++++++ SPONSOR Sign-up Routes ++++++++++++++++++++++++++
-
-
-
+# ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in Routes ++++++++++++++++++++++++++
+    path('', views.Login.as_view(), name='login'),
 
 # ++++++++++++++++++++++++++ SPONSOR Routes ++++++++++++++++++++++++++
 # ------------- Home/Dashboard Routes -------------
