@@ -12,6 +12,9 @@ class Puppy(models.Model):
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        return reverse('pup-profile', kwargs={'pup_id': self.id})
+    
 class User(models.Model):
     user_email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100, validators=[MinLengthValidator(8)])
@@ -22,7 +25,3 @@ class User(models.Model):
     contact_pref = models.JSONField(default=list)
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    
-    def get_absolute_url(self):
-        return reverse('pup-profile', kwargs={'pup_id': self.id})
