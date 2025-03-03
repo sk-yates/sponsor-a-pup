@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Puppy
 
 # Import HttpResponse to send text-based responses
@@ -50,6 +51,10 @@ def pup_index(request):
 
 # ------------- Pup CRUD views -------------
 # C - Create
+class PupCreate(CreateView):
+    model = Puppy
+    template_name = 'main_app/pup_form.html'
+    fields = ['name', 'breed', 'age', 'description', 'location']
 
 # R - Read
 def pup_profile(request, pup_id):
@@ -57,8 +62,17 @@ def pup_profile(request, pup_id):
     return render(request, 'pupprofiles/pupprofile.html', {'pup': pup})
 
 # U - Update
+class PupUpdate(UpdateView):
+    model = Puppy
+    template_name = 'main_app/pup_form.html'
+    fields = ['age', 'description', 'location']
 
 # D - Delete
+class PupDelete(DeleteView):
+    model = Puppy
+    template_name = 'main_app/pup_confirm_delete.html'
+    success_url = '/pup-index/'
+
 
 # ------------- User DB views -------------
 
