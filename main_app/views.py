@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.views import LoginView
 from .models import Puppy
 
 # Import HttpResponse to send text-based responses
@@ -6,8 +7,9 @@ from django.http import HttpResponse
 
 
 
-# ++++++++++++++++++++++++++ SPONSOR Sign-up ++++++++++++++++++++++++++
-
+# ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
+class Login(LoginView):
+    template_name = 'login.html'
 
 
 

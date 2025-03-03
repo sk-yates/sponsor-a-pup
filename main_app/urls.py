@@ -4,10 +4,8 @@ from . import views # Import views to connect routes to view functions
 urlpatterns = [
     # Routes will be added here
 
-# ++++++++++++++++++++++++++ SPONSOR Sign-up Routes ++++++++++++++++++++++++++
-
-
-
+# ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in Routes ++++++++++++++++++++++++++
+    path('', views.Login.as_view(), name='login'),
 
 # ++++++++++++++++++++++++++ SPONSOR Routes ++++++++++++++++++++++++++
 # ------------- Home/Dashboard Routes -------------
@@ -29,7 +27,7 @@ urlpatterns = [
 # ------------- Pup index Routes -------------
     path('sample-index/', views.sample_pup_index, name='sample-index'),
     path('pup-index/', views.pup_index, name='pup-index'),
-    path('pups/<int:pup_id>', views.pup_profile, name='pup-profile')
+    path('pups/<int:pup_id>', views.pup_profile, name='pup-profile'),
 
 
 ]
