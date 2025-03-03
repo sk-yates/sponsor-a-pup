@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
+from django.urls import reverse
 
 class Puppy(models.Model):
     name = models.CharField(max_length=100)
@@ -22,3 +23,6 @@ class User(models.Model):
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
     
+    
+    def get_absolute_url(self):
+        return reverse('pup-profile', kwargs={'pup_id': self.id})
