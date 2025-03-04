@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Puppy
 
@@ -14,26 +16,48 @@ from django.http import HttpResponse
 class Login(LoginView):
     template_name = 'login.html'
 
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # This will add the user to the database
+            user = form.save()
+            # This is how we log a user in
+            login(request, user)
+            return redirect('home')
+        else:
+            error_message = 'Invalid sign up - try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'signup.html', context)
+
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 # ------------- Home/Dashboard views -------------
+@login_required
 def home(request):
     return render(request, 'dashboard.html')
 
 # ------------- User details views -------------
+@login_required
 def user_details(request):
     return render(request, 'userdetails/userdetails.html')
 
 # ------------- Pupdate views -------------
+@login_required
 def pupdates(request):
     return render(request, 'pupdates/feed.html', {'pups': sample_pups})
 
+@login_required
 def pupdates_details(request):
     return render(request, 'pupdates/pupdatedetails.html')
 
 # ------------- Sponsorship views -------------
+@login_required
 def my_sponsorship(request):
     return render(request, 'sponsorships/mysponsorship.html')
 
+@login_required
 def my_subscription(request):
     return render(request, 'sponsorships/mysubscription.html')
 

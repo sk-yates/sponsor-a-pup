@@ -1,11 +1,39 @@
 {% block content %}
 <section>
-    <form action="{% url 'home' %}" method="post" class="login">
-      <h1>Login</h1>
-      {% csrf_token %} {{ form.as_p }}
-      <input type="hidden" name="next" value="{{ next }}" />
-      <button type="submit" class="btn submit">Login</button>
+    <h1>Guide Dogs</h1>
+    
+    <!-- Buttons for login and signup -->
+    <div id="auth-buttons" class="auth-buttons">
+        <button id="show-login" class="btn">Login</button>
+        <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+    </div>
+
+    <!-- Hidden login form -->
+    <form id="login-form" action="{% url 'home' %}" method="post" class="login hidden">
+        <h2>Login</h2>
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn submit">Submit</button>
     </form>
-  </section>
-  
-  {% endblock %}
+</section>
+
+<style>
+    .hidden {
+        display: none;
+    }
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<script>
+    document.getElementById("show-login").addEventListener("click", function() {
+        document.getElementById("login-form").classList.remove("hidden");
+        document.getElementById("auth-buttons").classList.add("hidden"); // This now correctly hides the buttons
+    });
+</script>
+
+{% endblock %}
