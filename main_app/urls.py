@@ -6,6 +6,7 @@ urlpatterns = [
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in Routes ++++++++++++++++++++++++++
     path('', views.Login.as_view(), name='login'),
+    path('accounts/signup/', views.signup, name='signup'),
 
 # ++++++++++++++++++++++++++ SPONSOR Routes ++++++++++++++++++++++++++
 # ------------- Home/Dashboard Routes -------------
