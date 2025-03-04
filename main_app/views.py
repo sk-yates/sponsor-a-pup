@@ -13,6 +13,9 @@ from django.http import HttpResponse
 
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
+def landing(request):
+    return render(request, 'landing.html')
+
 class Login(LoginView):
     template_name = 'login.html'
 
