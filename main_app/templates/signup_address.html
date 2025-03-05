@@ -1,0 +1,16 @@
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<form action="" method="post" class="form-container" autocomplete="off">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_address">What's your address?</label>
+    <input type="text" name="address" id="id_address" value="{{ form.address.value|default:'' }}" required>
+    {% if form.address.errors %}
+      <p class="error-text">{{ form.address.errors }}</p>
+    {% endif %}
+  </div>
+  <button type="submit" class="btn submit">Submit!</button>
+</form>
+{% endblock %}
