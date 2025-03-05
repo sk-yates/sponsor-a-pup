@@ -1,34 +1,21 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/landing.css' %}">
-<section>
-    <div alt="Two Dogs" class="home-background">
+
+<body>
+    <div class="all-landing-container">
         <div class="logo-container">
             <img src="{% static 'images/logo-img.png' %}" alt="Guide Dogs Logo" class="logo-img">
-            <h1 class="logo-container-h1">Guide Dogs</h1>
+            <h1 class="logo-h1">Guide Dogs</h1>
+        </div>
+
+        <div class="home-btns-container">
+            <a href="{% url 'login' %}" class="btn">Log in</a>
+            <a href="{% url 'signup' %}" class="btn signup-btn">Sign Up</a>
+            <div class="footer-container">
+                <p>By continuing, you agree to our Terms and Privacy.</p>
+            </div>
         </div>
     </div>
-    
-    <!-- Buttons for login and signup -->
-
-        <div class="login-btn-container">
-            <a href="{% url 'login' %}" class="btn">Login</a>
-        </div>
-        <div class="signup-btn-container">
-            <a href="{% url 'signup' %}" class="btn">Sign Up</a>
-        </div>
-    </div>
-</section>
-
-<style>
-    .hidden {
-        display: none;
-    }
-    .auth-buttons {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-</style>
-
+</body>
 {% endblock %}
