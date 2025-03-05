@@ -10,10 +10,13 @@
     </div>
     
     <!-- Buttons for login and signup -->
-    <div id="auth-buttons" class="auth-buttons">
-        <a href="{% url 'login' %}" class="btn">Login</a>
-        <a href="{% url 'signup' %}" class="btn">Sign Up</a>
-    </div>
+
+        <div class="login-btn-container">
+            <a href="{% url 'login' %}" class="btn">Login</a>
+        </div>
+        <div class="signup-btn-container">
+            <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+        </div>
     </div>
 </section>
 
