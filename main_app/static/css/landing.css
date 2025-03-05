@@ -43,6 +43,33 @@ body {
     letter-spacing: -0.54px;
 }
 
+.login-btn-container {
+    display: flex;
+    width: 345px;
+    height: 24px;
+    padding: 16px 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 100px;
+    background: #002C5C;
+}
+
+.signup-btn-container {
+    display: flex;
+    width: 345px;
+    height: 24px;
+    padding: 16px 0px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 100px;
+    background: rgba(252, 252, 252, 0.70);
+    backdrop-filter: blur(8px);
+}
+
 .logo-img{
   width: clamp(110px, 10vw, 180px);
 }

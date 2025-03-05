@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import SignupNameForm
 
 from .models import Puppy
 
@@ -22,18 +23,87 @@ class Login(LoginView):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignupNameForm(request.POST)
         if form.is_valid():
-            # This will add the user to the database
-            user = form.save()
-            # This is how we log a user in
+            # Store the name details in the session for later use
+            request.session['signup_title'] = form.cleaned_data['title']
+            request.session['signup_first_name'] = form.cleaned_data['first_name']
+            request.session['signup_last_name'] = form.cleaned_data['last_name']
+            # Redirect to the next step: Email & Phone collection
+            return redirect('signup_email_phone')
+        else:
+            error_message = 'Please correct the errors below.'
+    else:
+        form = SignupNameForm()
+    context = {
+        'form': form,
+        'error_message': error_message,
+    }
+    return render(request, 'signup.html', context)
+
+def signup_email_phone(request):
+    error_message = ''
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        if email and phone:
+            # Store email and phone in the session
+            request.session['signup_email'] = email
+            request.session['signup_phone'] = phone
+            # Next, collect the address
+            return redirect('signup_address')
+        else:
+            error_message = 'Please provide both your email and phone number.'
+    return render(request, 'signup_email_phone.html', {'error_message': error_message})
+
+def signup_address(request):
+    error_message = ''
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        if address:
+            # Store the address and move to password step
+            request.session['signup_address'] = address
+            return redirect('signup_password')
+        else:
+            error_message = 'Please provide your address.'
+    return render(request, 'signup_address.html', {'error_message': error_message})
+
+def signup_password(request):
+    error_message = ''
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 and password1 == password2:
+            request.session['signup_password'] = password1
+
+            # Retrieve all stored data from the session
+            email      = request.session.get('signup_email')
+            phone      = request.session.get('signup_phone')
+            password   = request.session.get('signup_password')
+            address    = request.session.get('signup_address')
+            title      = request.session.get('signup_title')
+            first_name = request.session.get('signup_first_name')
+            last_name  = request.session.get('signup_last_name')
+
+            # Create the user (using email as username in this example)
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name
+            )
+
+            # Optionally, store additional details (title, phone, address) in a profile model
+
+            # Log the user in and clear the session data
             login(request, user)
+            request.session.flush()
             return redirect('home')
         else:
-            error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'signup.html', context)
+            error_message = 'Passwords do not match or were not provided.'
+    return render(request, 'signup_password.html', {'error_message': error_message})
+
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 # ------------- Home/Dashboard views -------------
