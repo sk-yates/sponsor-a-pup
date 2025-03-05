@@ -1,17 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+import stripe
+
 from .forms import SignupNameForm
 
 from .models import Puppy
 
 # Import HttpResponse to send text-based responses
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
-
+#.env this later
+YOUR_DOMAIN = "http://localhost:8000"
+stripe.api_key = "sk_test_51QxYUHFWIxHlXk0GMXtvmjVBmCBKxzKeyWr5IuoICaE0SB9mBcPvfzBU8YJcS3b8QkFAuxA4947GfFYifYjZprpH00Wk39saOf"
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
 def landing(request):
@@ -93,7 +98,6 @@ def signup_password(request):
                 first_name=first_name,
                 last_name=last_name
             )
-
             # Optionally, store additional details (title, phone, address) in a profile model
 
             # Log the user in and clear the session data
@@ -103,6 +107,37 @@ def signup_password(request):
         else:
             error_message = 'Passwords do not match or were not provided.'
     return render(request, 'signup_password.html', {'error_message': error_message})
+
+
+def cancel(request) -> HttpResponse:
+    return render(request, 'cancel.html')
+
+def success(request) -> HttpResponse:
+    # print(f'{request.session = }')
+    # stripe_checkout_session_id = request.GET['session_id']
+    return render(request, 'success.html')
+
+def create_checkout_session(request):
+  try:
+      checkout_session = stripe.checkout.Session.create(
+          line_items=[
+              {
+                  # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                  'price': 'price_1QzNqBFWIxHlXk0GAJjN0JXF',
+                  'quantity': 1,
+              },
+          ],
+          mode='subscription',
+          # success_url=YOUR_DOMAIN + '/success.html',
+          # cancel_url=YOUR_DOMAIN + '/cancel.html',
+          success_url=YOUR_DOMAIN + reverse('success'), # + '?session_id={CHECKOUT_SESSION_ID}',
+          cancel_url=YOUR_DOMAIN + reverse('cancel')
+      )
+  except Exception as e:
+      return JsonResponse({'error': str(e)}, status=500)
+
+  return redirect(checkout_session.url, code=303)
+
 
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
