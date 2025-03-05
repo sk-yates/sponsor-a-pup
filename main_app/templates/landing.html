@@ -1,0 +1,21 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+
+<body>
+    <div class="all-landing-container">
+        <div class="logo-container">
+            <img src="{% static 'images/logo-img.png' %}" alt="Guide Dogs Logo" class="logo-img">
+            <h1 class="logo-h1">Guide Dogs</h1>
+        </div>
+
+        <div class="home-btns-container">
+            <a href="{% url 'login' %}" class="btn">Log in</a>
+            <a href="{% url 'signup' %}" class="btn signup-btn">Sign Up</a>
+            <div class="footer-container">
+                <p>By continuing, you agree to our Terms and Privacy.</p>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
