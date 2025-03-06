@@ -179,8 +179,9 @@ def pupdates(request):
     return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
-def pupdates_details(request):
-    return render(request, 'pupdates/pupdatedetails.html')
+def pupdates_details(request, pupdate_id):
+    pupdate = Pupdate.objects.get(id=pupdate_id)
+    return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
 
 # ------------- Sponsorship views -------------
 @login_required
