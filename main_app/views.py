@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from django.contrib.auth.models import User
+# Remove the default User import:
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.hashers import check_password
@@ -9,10 +10,9 @@ from django.contrib.auth.hashers import check_password
 import stripe
 
 from .forms import SignupNameForm
-from .models import Puppy, Pupdate
+from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
-
-# Import HttpResponse to send text-based responses
+# Import HttpResponse and JsonResponse to send text-based responses
 from django.http import HttpResponse, JsonResponse
 
 #.env this later
@@ -91,9 +91,9 @@ def signup_password(request):
             first_name = request.session.get('signup_first_name')
             last_name  = request.session.get('signup_last_name')
 
-            # Create the user (using email as username in this example)
-            user = User.objects.create_user(
-                username=email,
+            # Create the SponsorUser (using email as username in this example)
+            sponsor_user = SponsorUser.objects.create_user(
+                username=email,  # Adjust as needed; ensure create_user is defined
                 email=email,
                 password=password,
                 first_name=first_name,
@@ -101,8 +101,8 @@ def signup_password(request):
             )
             # Optionally, store additional details (title, phone, address) in a profile model
 
-            # Store the new user's ID in the session so we can log them in after checkout
-            request.session['user_id'] = user.id
+            # Store the new SponsorUser's ID in the session so we can log them in after checkout
+            request.session['user_id'] = sponsor_user.id
 
             # Redirect to the checkout session; user is not logged in until checkout is complete
             return redirect('create-checkout-session')
@@ -116,8 +116,8 @@ def cancel(request) -> HttpResponse:
 def success(request) -> HttpResponse:
     user_id = request.session.get('user_id')
     if user_id:
-        user = User.objects.get(pk=user_id)
-        login(request, user)
+        sponsor_user = SponsorUser.objects.get(pk=user_id)
+        login(request, sponsor_user)
         # Clear session data after logging the user in
         request.session.flush()
     return redirect('home')
@@ -147,25 +147,28 @@ def custom_login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
+            sponsor_user = SponsorUser.objects.get(email=email)
+        except SponsorUser.DoesNotExist:
             error = "Invalid email or password"
         else:
-            if check_password(password, user.password):
-                # Credentials are valid—store user id in session and redirect to home
-                request.session['user_id'] = user.id
+            if check_password(password, sponsor_user.password):
+                # Credentials are valid — log the user in
+                login(request, sponsor_user)
+                # Optionally, store user id in session as well if you need it later:
+                request.session['user_id'] = sponsor_user.id
                 return redirect('home')
             else:
                 error = "Invalid email or password"
-    return render(request, 'login', {'error': error})
+    return render(request, 'login.html', {'error': error})
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 # ------------- Home/Dashboard views -------------
 @login_required
 def home(request):
-    # Retrieve the user from the session using the stored id
-    user = User.objects.get(pk=request.session['user_id'])
+    # Retrieve the SponsorUser from the session using the stored id
+    user = SponsorUser.objects.get(pk=request.session['user_id'])
     return render(request, 'dashboard.html', {'user': user})
+
 
 # ------------- User details views -------------
 @login_required
