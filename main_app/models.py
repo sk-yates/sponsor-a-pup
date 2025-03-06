@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.contrib.auth.hashers import make_password
 
 class Puppy(models.Model):
     name = models.CharField(max_length=100)
@@ -26,3 +27,9 @@ class User(models.Model):
     contact_pref = models.JSONField(default=list)
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Automatically hash the password on creation if it's not already hashed
+        if not self.pk and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
