@@ -4,8 +4,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-  <h1>Sign Up: Tell Us Your Name</h1>
+<div class="header-container">
+    <img src="{% static 'images/back-icon.svg' %}" alt="Back Icon" class="back-icon">
+    <div class="indicator-container">
+        <div class="indicator_1"></div>
+        <div class="indicator_2"></div>
+        <div class="indicator_3"></div>
+        <div class="indicator_4"></div>
+        <div class="indicator_5"></div>
+        <div class="indicator_6"></div>
+    </div>
+</div>
+    <div class="page-header">
+  <h1>What's your title?</h1>
 </div>
 {% if error_message %}
   <p class="error-text">{{ error_message }}</p>
@@ -16,6 +27,7 @@
     <label for="{{ form.title.id_for_label }}">Title:</label>
     {{ form.title }}
   </div>
+  <h1>What's your name?</h1>
   <div class="form-group">
     <label for="{{ form.first_name.id_for_label }}">First Name:</label>
     {{ form.first_name }}
