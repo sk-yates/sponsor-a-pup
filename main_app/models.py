@@ -22,14 +22,14 @@ class SponsorUser(AbstractUser):
     def __str__(self):
         return self.username
 
-#     def save(self, *args, **kwargs):
-#         # Automatically hash the password on creation if it's not already hashed
-#         if not self.pk and not self.password.startswith('pbkdf2_'):
-#             self.password = make_password(self.password)
-#         super().save(*args, **kwargs)
-# 
-# 
-# 
+    def save(self, *args, **kwargs):
+        # Automatically hash the password on creation if it's not already hashed
+        if not self.pk and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
+
+
 
 
 class Puppy(models.Model):
