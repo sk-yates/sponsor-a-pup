@@ -6,20 +6,45 @@
 {% block content %}
 <h1>User Details Page</h1>
 <hr />
-<p class="page-content">
+<p class="page-content"></p>
 ==================================================================================
 This page will display the pupdates feed in cards:
-
-<div>
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  <h2> Example Card </h2>
-  <a href="/pupdates-details">
-    Click card for link to pup display page <br/>
-    <img src="{% static '' %}" alt="Pup X from Pup-Index" />
-  </a>
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-</div>
-
 ==================================================================================
-</p>
+
+
+<section class="card-container">
+  {% for pupdate in pupdates %}
+    <div class="pupdate-card">
+      <a href="/pupdates/{{ pupdate.id }}">
+        <div class="card-content">
+          <div class="card-img-container">
+            <img
+              src="{{ pudate.picture_url }}"
+              alt="Pupdate picture"
+            />
+          </div>
+          <h2 class="pupdate-card-title">{{ pupdate.title }}</h2>
+          <p>{{ pupdate.date }}</p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

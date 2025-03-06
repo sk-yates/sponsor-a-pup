@@ -10,7 +10,7 @@ from django.contrib.auth.hashers import check_password
 import stripe
 
 from .forms import SignupNameForm
-from .models import Puppy, SponsorUser  # Import SponsorUser instead of User
+from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
 # Import HttpResponse and JsonResponse to send text-based responses
 from django.http import HttpResponse, JsonResponse
@@ -178,11 +178,13 @@ def user_details(request):
 # ------------- Pupdate views -------------
 @login_required
 def pupdates(request):
-    return render(request, 'pupdates/feed.html', {'pups': sample_pups})
+    pupdates = Pupdate.objects.all()
+    return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
-def pupdates_details(request):
-    return render(request, 'pupdates/pupdatedetails.html')
+def pupdates_details(request, pupdate_id):
+    pupdate = Pupdate.objects.get(id=pupdate_id)
+    return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
 
 # ------------- Sponsorship views -------------
 @login_required

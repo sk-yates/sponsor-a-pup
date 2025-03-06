@@ -9,8 +9,8 @@ from django.contrib.auth.hashers import make_password
 
 class SponsorUser(AbstractUser):
     email = models.EmailField(unique=True)
-    groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)
+    # groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
+    # user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)
     pronouns = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
