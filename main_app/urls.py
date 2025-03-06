@@ -6,7 +6,7 @@ urlpatterns = [
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in Routes ++++++++++++++++++++++++++
     path('', views.landing, name='landing'),
-    path('accounts/login/', views.Login.as_view(), name='login'),
+    path('accounts/login/', views.custom_login, name='login'),
     path('accounts/signup/', views.signup, name='signup'),
     path('signup/email-phone/', views.signup_email_phone, name='signup_email_phone'),
     path('signup/address/', views.signup_address, name='signup_address'),

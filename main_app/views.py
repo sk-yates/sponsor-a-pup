@@ -4,12 +4,13 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.hashers import check_password
 
 import stripe
 
 from .forms import SignupNameForm
-
 from .models import Puppy
+
 
 # Import HttpResponse to send text-based responses
 from django.http import HttpResponse, JsonResponse
@@ -100,51 +101,71 @@ def signup_password(request):
             )
             # Optionally, store additional details (title, phone, address) in a profile model
 
-            # Log the user in and clear the session data
-            login(request, user)
-            request.session.flush()
-            return redirect('home')
+            # Store the new user's ID in the session so we can log them in after checkout
+            request.session['user_id'] = user.id
+
+            # Redirect to the checkout session; user is not logged in until checkout is complete
+            return redirect('create-checkout-session')
         else:
             error_message = 'Passwords do not match or were not provided.'
     return render(request, 'signup_password.html', {'error_message': error_message})
 
-
 def cancel(request) -> HttpResponse:
-    return render(request, 'cancel.html')
+    return redirect('signup_password')
 
 def success(request) -> HttpResponse:
-    # print(f'{request.session = }')
-    # stripe_checkout_session_id = request.GET['session_id']
-    return render(request, 'success.html')
+    user_id = request.session.get('user_id')
+    if user_id:
+        user = User.objects.get(pk=user_id)
+        login(request, user)
+        # Clear session data after logging the user in
+        request.session.flush()
+    return redirect('home')
 
 def create_checkout_session(request):
-  try:
-      checkout_session = stripe.checkout.Session.create(
-          line_items=[
-              {
-                  # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                  'price': 'price_1QzNqBFWIxHlXk0GAJjN0JXF',
-                  'quantity': 1,
-              },
-          ],
-          mode='subscription',
-          # success_url=YOUR_DOMAIN + '/success.html',
-          # cancel_url=YOUR_DOMAIN + '/cancel.html',
-          success_url=YOUR_DOMAIN + reverse('success'), # + '?session_id={CHECKOUT_SESSION_ID}',
-          cancel_url=YOUR_DOMAIN + reverse('cancel')
-      )
-  except Exception as e:
-      return JsonResponse({'error': str(e)}, status=500)
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': 'price_1QzNqBFWIxHlXk0GAJjN0JXF',
+                    'quantity': 1,
+                },
+            ],
+            mode='subscription',
+            success_url=YOUR_DOMAIN + reverse('success'),
+            cancel_url=YOUR_DOMAIN + reverse('cancel')
+        )
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
-  return redirect(checkout_session.url, code=303)
+    return redirect(checkout_session.url, code=303)
 
-
+def custom_login(request):
+    error = None
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            error = "Invalid email or password"
+        else:
+            if check_password(password, user.password):
+                # Credentials are valid—store user id in session and redirect to home
+                request.session['user_id'] = user.id
+                return redirect('home')
+            else:
+                error = "Invalid email or password"
+    return render(request, 'login', {'error': error})
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 # ------------- Home/Dashboard views -------------
 @login_required
 def home(request):
-    return render(request, 'dashboard.html')
+    # Retrieve the user from the session using the stored id
+    user = User.objects.get(pk=request.session['user_id'])
+    return render(request, 'dashboard.html', {'user': user})
 
 # ------------- User details views -------------
 @login_required
