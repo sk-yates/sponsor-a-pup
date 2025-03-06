@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+.header-container {
+    display: inline-flex;
+    width: 276px;
+    height: 24px;
+    align-items: center;
+    gap: 24px;
+}
+
+.indicator-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+}
+
+.indicator_1 {
+    width: 48px;
+    height: 8px;
+    border-radius: 100px;
+    background: #002B5B;
+}
+
+.indicator_2 {
+    width: 24px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ECEDEE;
+}
+
+.indicator_3 {
+    width: 24px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ECEDEE;
+}
+
+.indicator_4 {
+    width: 24px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ECEDEE;
+}
+
+.indicator_5 {
+    width: 24px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ECEDEE;
+}
+
+.indicator_6 {
+    width: 24px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ECEDEE;
+}
