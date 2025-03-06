@@ -25,7 +25,7 @@ urlpatterns = [
 
 # ------------- Pupdate Routes -------------
     path('pupdates/', views.pupdates, name='pupdates'),
-    path('pupdates-details/', views.pupdates_details, name='pupdates-details'),
+    path('pupdates/<int:pupdate_id>/', views.pupdates_details, name='pupdates-details'),
 
 # ------------- Sponsorship Routes -------------
     path('my-sponsorship/', views.my_sponsorship, name='my-sponsorship'),

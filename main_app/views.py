@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import check_password
 import stripe
 
 from .forms import SignupNameForm
-from .models import Puppy
+from .models import Puppy, Pupdate
 
 
 # Import HttpResponse to send text-based responses
@@ -175,7 +175,8 @@ def user_details(request):
 # ------------- Pupdate views -------------
 @login_required
 def pupdates(request):
-    return render(request, 'pupdates/feed.html', {'pups': sample_pups})
+    pupdates = Pupdate.objects.all()
+    return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
 def pupdates_details(request):
