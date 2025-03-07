@@ -26,6 +26,28 @@ def landing(request):
 class Login(LoginView):
     template_name = 'login.html'
 
+def signup_pick_pup(request):
+    if request.method == 'POST':
+        # Get the selected pup from the form submission
+        selected_pup = request.POST.get('selected_pup')
+        if selected_pup:
+            # Optionally, you might want to validate that the pup exists:
+            # pup = get_object_or_404(Puppy, id=selected_pup)
+            
+            # Store the selected pup's id in the session
+            request.session['selected_pup'] = selected_pup
+            
+            # Redirect to the checkout session after pup selection
+            return redirect('create-checkout-session')
+        else:
+            error_message = "Please select a pup."
+            pups = Puppy.objects.all()
+            return render(request, 'signup_pick_pup.html', {'error_message': error_message, 'pups': pups})
+    else:
+        # On GET, retrieve all pups from the database and render the pick-your-pup page
+        pups = Puppy.objects.all()
+        return render(request, 'signup_pick_pup.html', {'pups': pups})
+
 def signup(request):
     error_message = ''
     if request.method == 'POST':
