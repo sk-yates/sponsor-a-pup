@@ -2,30 +2,34 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/signup/pick-your-pup.css' %}" />
 {% endblock %}
+
 <body>
   <div class="all-signup-container">
 
-      <div class="profile-container">
-        <div class="pup-img-container">
-          <img src="" alt="Picture of the chosen pup" />
+    <div class="profile-container">
+      <div class="pup-img-container">
+        <img src="" alt="Picture of the chosen pup" />
+      </div>
+      <div class="pup-name-container">
+        <h1 class="logo-h1">{{ pup.name }}</h1>
+        <div class="pup-sex-age-container subtitle-font">
+          {{ pup.sex }} &nbsp; • &nbsp; {{ pup.age }} &nbsp;
+          {% if pup.age > 1 %}
+          <p class="subtitle-font">years old</p>
+          {% else %}
+          <p class="subtitle-font">year old</p>
+          {% endif %}
         </div>
-        <div class="pup-name-container">
-          <h1 class="logo-h1">{{ pup.name }}</h1>
-          <div class="pup-sex-age-container subtitle-font"> 
-            {{ pup.sex }} &nbsp; • &nbsp; {{ pup.age }} &nbsp;
-            {% if pup.age > 1 %}
-              <p class="subtitle-font">years old</p>
-            {% else %}
-              <p class="subtitle-font">year old</p>
-            {% endif %}
-          </div>
-        </div>
+      </div>
     </div>
 
     <div class="tabs-container">
-      <a href="{% url 'pup-about' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-about' %}active{% endif %}">About</a>
-      <a href="{% url 'pup-videos' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-videos' %}active{% endif %}">Videos</a>
-      <a href="{% url 'pup-milestones' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-milestones' %}active{% endif %}">Miletones</a>
+      <a href="{% url 'pup-about' pup.id %}"
+        class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-about' %}active{% endif %}">About</a>
+      <a href="{% url 'pup-videos' pup.id %}"
+        class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-videos' %}active{% endif %}">Videos</a>
+      <a href="{% url 'pup-milestones' pup.id %}"
+        class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-milestones' %}active{% endif %}">Miletones</a>
     </div>
     <div class="divider"></div>
     {% block content %}{% endblock %}
@@ -33,19 +37,22 @@
     <div class="signup-btn-container">
       <a href="{% url 'create-checkout-session' %}?selected_pup={{ pup.id }}" class="btn submit">
         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 20C10 20 4 19 4 13C4 11 6 9 8 9C9 9 10 10 12 10C14 10 15 9 16 9C18 9 20 11 20 13C20 19 14 20 12 20Z" 
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="7" cy="4" r="2" fill="currentColor"/>
-          <circle cx="12" cy="3" r="2" fill="currentColor"/>
-          <circle cx="17" cy="4" r="2" fill="currentColor"/>
+          <path
+            d="M12 20C10 20 4 19 4 13C4 11 6 9 8 9C9 9 10 10 12 10C14 10 15 9 16 9C18 9 20 11 20 13C20 19 14 20 12 20Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="7" cy="4" r="2" fill="currentColor" />
+          <circle cx="12" cy="3" r="2" fill="currentColor" />
+          <circle cx="17" cy="4" r="2" fill="currentColor" />
         </svg>
       </a>
     </div>
 
+    {% if user.is_authenticated %}
     <div class="pup-actions">
       <a href="{% url 'pup-update' pup.id %}" class="">Edit</a>
       <a href="{% url 'pup-delete' pup.id %}" class="">Delete</a>
     </div>
+    {% endif %}
 
 </body>
 
