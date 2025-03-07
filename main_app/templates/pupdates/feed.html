@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="{% static '' %}"/>
 {% endblock %}
 {% block content %}
-<h1>User Details Page</h1>
+<h1> Your Pupdates </h1>
 <hr />
-<p class="page-content"></p>
-==================================================================================
-This page will display the pupdates feed in cards:
-==================================================================================
 
+<div>
+  <a href="/pupdates/create"> <h2>Add a Pupdate</h2></a>
+  <br/>
+<p class="page-content"></p>
 
 <section class="card-container">
   {% for pupdate in pupdates %}
@@ -19,7 +19,7 @@ This page will display the pupdates feed in cards:
         <div class="card-content">
           <div class="card-img-container">
             <img
-              src="{{ pudate.picture_url }}"
+              src="{{ object.picture_url }}"
               alt="Pupdate picture"
             />
           </div>
