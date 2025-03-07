@@ -37,6 +37,7 @@ class Puppy(models.Model):
     breed = models.CharField(max_length=100)
     age = models.IntegerField()
     description = models.TextField(max_length=500)
+    picture_url = models.ImageField(upload_to='puppy_images/', max_length=400, blank=True, null=True)
     location = models.CharField(max_length=100)
 
     user = models.ManyToManyField(SponsorUser, blank=True)
@@ -53,8 +54,8 @@ class Puppy(models.Model):
 class Pupdate(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField(max_length=300)
-    picture_url = models.ImageField(max_length=400)
-    media_url = models.CharField(max_length=400)
+    picture_url = models.ImageField(upload_to='pupdate_images/', max_length=400, blank=True, null=True)
+    media_url = models.CharField(max_length=400, blank=True, null=True)
     date = models.DateField('Pupdate date')
 
     pup = models.ForeignKey(Puppy, on_delete=models.CASCADE)

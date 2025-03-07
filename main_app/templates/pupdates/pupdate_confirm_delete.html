@@ -1,0 +1,18 @@
+{% extends 'base.html' %}  
+{% load static %} 
+{% block content %}
+
+<div class="page-header">
+  <h1>Delete Pupdate?</h1>
+  <img src="" alt="Alt text for image" />
+</div>
+
+<h2>Are you sure you want to delete {{ object.name }}?</h2>
+
+<form action="" method="post" class="form">
+  {% csrf_token %}
+  <a href="{% url 'pupdates-details' object.id %}" class="button">Cancel</a>
+  <button type="submit" class="">Yes - Delete!</button>
+</form>
+
+{% endblock %}
