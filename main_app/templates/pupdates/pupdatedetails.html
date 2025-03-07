@@ -18,6 +18,12 @@ This page will display the detailed pupdates from the feed cards.
         <h3>{{ pupdate.content }}</h3>
          {{ pupdate.media_url }} 
     </div>
+
+    <div class="pupdate-actions">
+        <a href="{% url 'pupdates-update' pupdate.id %}" class="btn warn">Edit</a>
+        <a href="{% url 'pupdates-delete' pupdate.id %}" class="btn danger">Delete</a>
+      </div>
+
 </section>
 
 

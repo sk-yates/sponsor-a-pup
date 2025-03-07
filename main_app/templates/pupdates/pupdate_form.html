@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="" />
+{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  {% if object %}
+  <h1>Edit {{ object.name }}</h1>
+  <img src="{% static '' %}" alt="alt text for image" />
+  {% else %}
+  <h1> Add a Pupdate! </h1>
+  {% endif %}
+  <img src="{% static '' %}" alt="alt text for image" />
+</div>
+
+<form action="" method="post" enctype="multipart/form-data" class="form-container">
+  {% csrf_token %}
+  <table>
+    {{ form.as_p }}
+  </table>
+  <button type="submit" class="btn submit">Submit!</button>
+</form>
+
+{% endblock %}

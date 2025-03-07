@@ -27,6 +27,9 @@ urlpatterns = [
 # ------------- Pupdate Routes -------------
     path('pupdates/', views.pupdates, name='pupdates'),
     path('pupdates/<int:pupdate_id>/', views.pupdates_details, name='pupdates-details'),
+    path('pupdates/create/', views.PupdateCreate.as_view(), name='pupdates-create'),
+    path('pupdates/<int:pk>/update/', views.PupdateUpdate.as_view(), name='pupdates-update'),
+    path('pupdates/<int:pk>/delete/', views.PupdateDelete.as_view(), name='pupdates-delete'),
     
 # ------------- Pup details Routes -------------
     path('pup/<int:pup_id>/about/', views.pup_about, name='pup-about'),
