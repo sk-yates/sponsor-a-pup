@@ -42,6 +42,7 @@ urlpatterns = [
     path('sample-index/', views.sample_pup_index, name='sample-index'),
     path('pup-index/', views.pup_index, name='pup-index'),
     path('pups/<int:pup_id>/', views.pup_profile, name='pup-profile'),
+    path("pups/select/", views.pup_profile_redirect, name="pup-profile-redirect"),
     path('pups/create/', views.PupCreate.as_view(), name='pup-create'),
     path('pups/<int:pk>/update/', views.PupUpdate.as_view(), name='pup-update'),
     path('pups/<int:pk>/delete/', views.PupDelete.as_view(), name='pup-delete'),

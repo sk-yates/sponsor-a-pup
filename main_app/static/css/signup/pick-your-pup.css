@@ -146,3 +146,15 @@ p {
 .btn:hover {
   transform: scale(0.95) rotate(90deg);
 }
+
+.pick-up-prompt-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.paw-icon {
+  width: clamp(24px, 15vw, 36px); 
+  height: auto;
+}
