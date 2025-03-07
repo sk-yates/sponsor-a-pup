@@ -1,16 +1,39 @@
 {% load static %}
 {% block head %}
+<link rel="stylesheet" href="{% static 'css/signup/signup.css' %}" />
 {% endblock %}
 {% block content %}
-<form action="" method="post" class="form-container" autocomplete="off">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="id_address">What's your address?</label>
-    <input type="text" name="address" id="id_address" value="{{ form.address.value|default:'' }}" required>
-    {% if form.address.errors %}
-      <p class="error-text">{{ form.address.errors }}</p>
+<body>
+  <div class="all-signup-container">
+    {% if error_message %}
+      <p class="error-text">{{ error_message }}</p>
     {% endif %}
+
+    <form action="" method="post" class="form-container" autocomplete="off">
+      {% csrf_token %}
+      <div class="form-label-input-container">
+        <label for="id_address" class="logo-h1">What's your address?</label>
+        <input type="text" name="address" id="id_address" value="{{ form.address.value|default:'' }}" required class="form-input" placeholder="Type here...">
+        {% if form.address.errors %}
+          <p class="error-text">{{ form.address.errors }}</p>
+        {% endif %}
+      </div>
+  
+      <div class="signup-btn-container">
+        <button type="submit" class="btn submit">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20C10 20 4 19 4 13C4 11 6 9 8 9C9 9 10 10 12 10C14 10 15 9 16 9C18 9 20 11 20 13C20 19 14 20 12 20Z" 
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7" cy="4" r="2" fill="currentColor"/>
+            <circle cx="12" cy="3" r="2" fill="currentColor"/>
+            <circle cx="17" cy="4" r="2" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+    <div class="guide-dog-img-container">
+      <img src="/static/images/guide-dog.png" alt="Guide Dog">
+    </div>
   </div>
-  <button type="submit" class="btn submit">Submit!</button>
-</form>
+</body>
 {% endblock %}

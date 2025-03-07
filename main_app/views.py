@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 # Remove the default User import:
@@ -110,6 +110,10 @@ def signup_password(request):
             error_message = 'Passwords do not match or were not provided.'
     return render(request, 'signup_password.html', {'error_message': error_message})
 
+
+def signup_pick_pup(request):
+    return render(request, 'signup_pick_pup.html')
+
 def cancel(request) -> HttpResponse:
     return redirect('signup_password')
 
@@ -185,6 +189,36 @@ def pupdates(request):
 def pupdates_details(request, pupdate_id):
     pupdate = Pupdate.objects.get(id=pupdate_id)
     return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
+
+
+# ------------- Pup details -------------
+def pup_about(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_about.html", {"pup": pup})
+
+def pup_videos(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_videos.html", {"pup": pup})
+
+def pup_milestones(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_milestones.html", {"pup": pup})
+
+
+
+# ------------- Pup details -------------
+def pup_about(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_about.html", {"pup": pup})
+
+def pup_videos(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_videos.html", {"pup": pup})
+
+def pup_milestones(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_milestones.html", {"pup": pup})
+
 
 # ------------- Sponsorship views -------------
 @login_required

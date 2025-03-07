@@ -6,9 +6,21 @@ class SignupNameForm(forms.Form):
         ('Ms', 'Ms.'),
         ('Mrs', 'Mrs.'),
         ('Dr', 'Dr.'),
-        # Add more options as needed
+        ('Miss', 'Miss.'),
+        ('Prof', 'Prof'),
+        ('Rev', 'Rev.'),
+        ('Mx', 'Mx.'),
     ]
     
-    title = forms.ChoiceField(choices=TITLE_CHOICES, required=True, label="Title")
-    first_name = forms.CharField(max_length=50, required=True, label="First Name")
-    last_name = forms.CharField(max_length=50, required=True, label="Last Name")
+    title = forms.ChoiceField(
+        choices=TITLE_CHOICES, required=True, label="Title",
+        widget=forms.Select(attrs={'class': 'form-dropdown'})
+    )
+    first_name = forms.CharField(
+        max_length=50, required=True, label="First Name",
+        widget=forms.TextInput(attrs={'placeholder': 'Type here...', 'class': 'form-input'})
+    )
+    last_name = forms.CharField(
+        max_length=50, required=True, label="Last Name",
+        widget=forms.TextInput(attrs={'placeholder': 'Type here...', 'class': 'form-input'})
+    )

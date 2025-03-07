@@ -11,7 +11,7 @@ urlpatterns = [
     path('signup/email-phone/', views.signup_email_phone, name='signup_email_phone'),
     path('signup/address/', views.signup_address, name='signup_address'),
     path('signup/password/', views.signup_password, name='signup_password'),
-
+    path('signup/pick-pup/', views.signup_pick_pup, name='signup_pick_pup'),
     path('create-checkout-session/', views.create_checkout_session, name='create-checkout-session'),
     path('cancel/', views.cancel, name='cancel'),
     path('success/', views.success, name='success'),
@@ -26,6 +26,11 @@ urlpatterns = [
 # ------------- Pupdate Routes -------------
     path('pupdates/', views.pupdates, name='pupdates'),
     path('pupdates/<int:pupdate_id>/', views.pupdates_details, name='pupdates-details'),
+    
+# ------------- Pup details Routes -------------
+    path('pup/<int:pup_id>/about/', views.pup_about, name='pup-about'),
+    path('pup/<int:pup_id>/videos/', views.pup_videos,name='pup-videos'),
+    path('pup/<int:pup_id>/milestones/', views.pup_milestones, name='pup-milestones'),
 
 # ------------- Sponsorship Routes -------------
     path('my-sponsorship/', views.my_sponsorship, name='my-sponsorship'),
