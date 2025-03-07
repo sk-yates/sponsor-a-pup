@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -99,10 +99,13 @@ def signup_password(request):
             # Log the user in and clear the session data
             login(request, user)
             request.session.flush()
-            return redirect('home')
+            return redirect('signup_pick_pup')
         else:
             error_message = 'Passwords do not match or were not provided.'
     return render(request, 'signup_password.html', {'error_message': error_message})
+
+def signup_pick_pup(request):
+    return render(request, 'signup_pick_pup.html')
 
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
@@ -124,6 +127,21 @@ def pupdates(request):
 @login_required
 def pupdates_details(request):
     return render(request, 'pupdates/pupdatedetails.html')
+
+
+# ------------- Pup details -------------
+def pup_about(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_about.html", {"pup": pup})
+
+def pup_videos(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_videos.html", {"pup": pup})
+
+def pup_milestones(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_milestones.html", {"pup": pup})
+
 
 # ------------- Sponsorship views -------------
 @login_required

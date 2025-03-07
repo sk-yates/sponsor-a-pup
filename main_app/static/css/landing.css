@@ -5,7 +5,8 @@ body {
     justify-content: center; /* Center horizontally */
     min-height: 100vh; /* Ensures full height but allows content growth */
     margin: 0;
-    background-image: url('../images/home-background-img.png'); /* Adjust path */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.699)), 
+                url('/static/images/home-background-img.jpg');
     background-size: cover; /* Ensures it covers the entire screen */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents repeating */
@@ -101,8 +102,8 @@ body {
 }
 
 .signup-btn {
-  background: rgba(252, 252, 252, 0.70);
-  backdrop-filter: blur(8px);
+  background: rgba(252, 252, 252, 0.543);
+  backdrop-filter: blur(16px);
   color: #002B5B;
 }
 

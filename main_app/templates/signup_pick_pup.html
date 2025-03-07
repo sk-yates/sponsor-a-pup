@@ -1,0 +1,17 @@
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/signup/signup.css' %}" />
+{% endblock %}
+{% block content %}
+<body>
+  <div class="all-signup-container">
+    {% if error_message %}
+      <p class="error-text">{{ error_message }}</p>
+    {% endif %}
+    <h1>pick a pup</h1>
+    <div class="guide-dog-img-container">
+      <img src="/static/images/guide-dog.png" alt="Guide Dog">
+    </div>
+  </div>
+</body>
+{% endblock %}

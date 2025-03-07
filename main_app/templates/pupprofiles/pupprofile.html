@@ -2,8 +2,55 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/signup/pick-your-pup.css' %}" />
 {% endblock %}
-{% block content %}
-<section class="">
+<body>
+  <div class="all-signup-container">
+
+      <div class="profile-container">
+        <div class="pup-img-container">
+          <img src="" alt="Picture of the chosen pup" />
+        </div>
+        <div class="pup-name-container">
+          <h1 class="logo-h1">{{ pup.name }}</h1>
+          <div class="pup-sex-age-container subtitle-font"> 
+            {{ pup.sex }} &nbsp; • &nbsp; {{ pup.age }} &nbsp;
+            {% if pup.age > 1 %}
+              <p class="subtitle-font">years old</p>
+            {% else %}
+              <p class="subtitle-font">year old</p>
+            {% endif %}
+          </div>
+        </div>
+    </div>
+
+    <div class="tabs-container">
+      <a href="{% url 'pup-about' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-about' %}active{% endif %}">About</a>
+      <a href="{% url 'pup-videos' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-videos' %}active{% endif %}">Videos</a>
+      <a href="{% url 'pup-milestones' pup.id %}" class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-milestones' %}active{% endif %}">Miletones</a>
+    </div>
+    <div class="divider"></div>
+    {% block content %}{% endblock %}
+
+    <div class="signup-btn-container">
+      <button type="submit" class="btn submit">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 20C10 20 4 19 4 13C4 11 6 9 8 9C9 9 10 10 12 10C14 10 15 9 16 9C18 9 20 11 20 13C20 19 14 20 12 20Z" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="7" cy="4" r="2" fill="currentColor"/>
+          <circle cx="12" cy="3" r="2" fill="currentColor"/>
+          <circle cx="17" cy="4" r="2" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="pup-actions">
+      <a href="{% url 'pup-update' pup.id %}" class="">Edit</a>
+      <a href="{% url 'pup-delete' pup.id %}" class="">Delete</a>
+    </div>
+
+</body>
+
+
+<!-- <section class="">
 
   <div class="header-container">
     <a href="">
@@ -19,31 +66,6 @@
     </div>
   </div>
 
-  <div class="profile-container">
-    <div class="pup-img-container">
-      <img src="" alt="Picture of the chosen pup" />
-    </div>
-    <div class="pup-name-container">
-      <h1>{{ pup.name }}</h1>
-      <div class="pup-sex-age-container"> {{ pup.sex }} {{ pup.age }}</div>
-    </div>
-  </div>
-
-  <div class="pup-details-container">
-    <div class="tabs-container">
-      <h3>About</h3>
-      <h3>Activity</h3>
-      <h3>Health</h3>
-    </div>
-    <div class="divider"></div>
-    <p>{{ pup.description }}</p>
-  </div>
-
-  <div class="view-details-btn-container">
-    <div class="view-details-btn">
-      <a href="">Continue</a>
-    </div>
-  </div>
 
 
   <div class="pup-actions">
@@ -51,5 +73,19 @@
     <a href="{% url 'pup-delete' pup.id %}" class="">Delete</a>
   </div>
   </div>
-</section>
-{% endblock %}
+</section> -->
+
+
+
+
+<!-- <div class="pup-details-container">
+  <div class="tabs-container">
+    <h2 class="logo-h2">About</h2>
+    <h2 class="logo-h2">Activity</h2>
+    <h2 class="logo-h2">Health</h2>
+  </div>
+  <div class="divider"></div>
+  <div class="p-container">
+    <p>{{ pup.description }}</p>
+  </div>
+</div> -->
