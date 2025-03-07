@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import check_password
 
 import stripe
 
-from .forms import SignupNameForm
+from .forms import SignupNameForm, PupdateForm
 from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
 # Import HttpResponse and JsonResponse to send text-based responses
@@ -187,6 +187,25 @@ def pupdates(request):
 def pupdates_details(request, pupdate_id):
     pupdate = Pupdate.objects.get(id=pupdate_id)
     return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
+
+
+# ------------- Pupdate CRUD views -------------
+class PupdateCreate(CreateView):
+    model = Pupdate
+    form_class = PupdateForm
+    template_name = 'pupdates/pupdate_form.html'
+    success_url = '/pupdates/'
+
+class PupdateUpdate(UpdateView):
+    model = Pupdate
+    template_name = 'pupdates/pupdate_form.html'
+    fields = ['title', 'content', 'picture_url', 'media_url', 'date']
+    success_url = '/pupdates/'
+
+class PupdateDelete(DeleteView):
+    model = Pupdate
+    template_name = 'pupdates/pupdate_confirm_delete.html'
+    success_url = '/pupdates/'
 
 
 # ------------- Pup details -------------
