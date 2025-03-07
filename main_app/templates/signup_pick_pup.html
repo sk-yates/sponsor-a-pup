@@ -1,17 +1,48 @@
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/signup/signup.css' %}" />
+<link rel="stylesheet" href="{% static 'css/signup/pick-your-pup.css' %}" />
 {% endblock %}
 {% block content %}
 <body>
   <div class="all-signup-container">
-    {% if error_message %}
-      <p class="error-text">{{ error_message }}</p>
-    {% endif %}
-    <h1>pick a pup</h1>
-    <div class="guide-dog-img-container">
-      <img src="/static/images/guide-dog.png" alt="Guide Dog">
+    <div class="profile-container">
+      <div class="pup-name-container">
+        <h1 class="logo-h1">Pick a pup</h1>
+        <div class="pick-up-prompt-container">
+          <img src="{% static 'images/paw-icon.svg' %}" alt="paw-icon" class="paw-icon">
+          <p>Click a pup of your choice below</p>
+        </div>
+      </div>
     </div>
+
+    <form method="POST" action="{% url 'pup-profile-redirect' %}">
+      {% csrf_token %}
+      <div class="pup-cards-container">
+        {% for pup in pups %}
+        <div class="pup-card">
+          <input type="radio" id="pup_{{ forloop.counter }}" name="selected_pup" value="{{ pup.id }}">
+          <label for="pup_{{ forloop.counter }}" class="pup-card-label">
+            <div class="pup-details">
+              <strong>{{ pup.name }}</strong>
+              <p>{{ pup.description }}</p>
+            </div>
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="signup-btn-container">
+        <button type="submit" class="btn submit">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20C10 20 4 19 4 13C4 11 6 9 8 9C9 9 10 10 12 10C14 10 15 9 16 9C18 9 20 11 20 13C20 19 14 20 12 20Z" 
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7" cy="4" r="2" fill="currentColor"/>
+            <circle cx="12" cy="3" r="2" fill="currentColor"/>
+            <circle cx="17" cy="4" r="2" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </form>
   </div>
 </body>
 {% endblock %}

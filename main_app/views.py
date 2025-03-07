@@ -111,8 +111,6 @@ def signup_password(request):
     return render(request, 'signup_password.html', {'error_message': error_message})
 
 
-def signup_pick_pup(request):
-    return render(request, 'signup_pick_pup.html')
 
 def cancel(request) -> HttpResponse:
     return redirect('signup_password')
@@ -206,20 +204,6 @@ def pup_milestones(request, pup_id):
 
 
 
-# ------------- Pup details -------------
-def pup_about(request, pup_id):
-    pup = get_object_or_404(Puppy, id=pup_id)
-    return render(request, "pupprofiles/pupprofile_about.html", {"pup": pup})
-
-def pup_videos(request, pup_id):
-    pup = get_object_or_404(Puppy, id=pup_id)
-    return render(request, "pupprofiles/pupprofile_videos.html", {"pup": pup})
-
-def pup_milestones(request, pup_id):
-    pup = get_object_or_404(Puppy, id=pup_id)
-    return render(request, "pupprofiles/pupprofile_milestones.html", {"pup": pup})
-
-
 # ------------- Sponsorship views -------------
 @login_required
 def my_sponsorship(request):
@@ -241,6 +225,18 @@ def pup_index(request):
 
 
 
+# xaiver pick up pup code
+def signup_pick_pup(request):
+    pups = Puppy.objects.all()  # Fetch all puppies from the database
+    return render(request, "signup_pick_pup.html", {"pups": pups})
+
+def pup_profile_redirect(request):
+    if request.method == "POST":
+        selected_pup_id = request.POST.get("selected_pup")  # Get pup ID as a string
+        if selected_pup_id and selected_pup_id.isdigit():  # Ensure it's a number
+            return redirect("pup-profile", pup_id=int(selected_pup_id))  # Convert to integer
+    return redirect("signup-pick-pup")  # Redirect back if no selection
+
 # ------------- Pup CRUD views -------------
 # C - Create
 class PupCreate(CreateView):
@@ -251,7 +247,7 @@ class PupCreate(CreateView):
 # R - Read
 def pup_profile(request, pup_id):
     pup = Puppy.objects.get(id=pup_id)
-    return render(request, 'pupprofiles/pupprofile.html', {'pup': pup})
+    return render(request, "pupprofiles/pupprofile.html", {"pup": pup})
 
 # U - Update
 class PupUpdate(UpdateView):
