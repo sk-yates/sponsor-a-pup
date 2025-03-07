@@ -101,13 +101,15 @@ def signup_password(request):
             )
             # Optionally, store additional details (title, phone, address) in a profile model
 
-            # Log the user in and clear the session data
-            login(request, user)
-            request.session.flush()
-            return redirect('signup_pick_pup')
+            # Store the new SponsorUser's ID in the session so we can log them in after checkout
+            request.session['user_id'] = sponsor_user.id
+
+            # Redirect to the checkout session; user is not logged in until checkout is complete
+            return redirect('create-checkout-session')
         else:
             error_message = 'Passwords do not match or were not provided.'
     return render(request, 'signup_password.html', {'error_message': error_message})
+
 
 def signup_pick_pup(request):
     return render(request, 'signup_pick_pup.html')

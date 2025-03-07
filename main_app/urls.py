@@ -12,10 +12,6 @@ urlpatterns = [
     path('signup/address/', views.signup_address, name='signup_address'),
     path('signup/password/', views.signup_password, name='signup_password'),
     path('signup/pick-pup/', views.signup_pick_pup, name='signup_pick_pup'),
-    
-
-
-
     path('create-checkout-session/', views.create_checkout_session, name='create-checkout-session'),
     path('cancel/', views.cancel, name='cancel'),
     path('success/', views.success, name='success'),
