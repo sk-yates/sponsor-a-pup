@@ -1,17 +1,23 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from django.contrib.auth.models import User
+# Remove the default User import:
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.hashers import check_password
+
+import stripe
+
 from .forms import SignupNameForm
+from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
-from .models import Puppy
+# Import HttpResponse and JsonResponse to send text-based responses
+from django.http import HttpResponse, JsonResponse
 
-# Import HttpResponse to send text-based responses
-from django.http import HttpResponse
-
-
+#.env this later
+YOUR_DOMAIN = "http://localhost:8000"
+stripe.api_key = "sk_test_51QxYUHFWIxHlXk0GMXtvmjVBmCBKxzKeyWr5IuoICaE0SB9mBcPvfzBU8YJcS3b8QkFAuxA4947GfFYifYjZprpH00Wk39saOf"
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
 def landing(request):
@@ -85,15 +91,14 @@ def signup_password(request):
             first_name = request.session.get('signup_first_name')
             last_name  = request.session.get('signup_last_name')
 
-            # Create the user (using email as username in this example)
-            user = User.objects.create_user(
-                username=email,
+            # Create the SponsorUser (using email as username in this example)
+            sponsor_user = SponsorUser.objects.create_user(
+                username=email,  # Adjust as needed; ensure create_user is defined
                 email=email,
                 password=password,
                 first_name=first_name,
                 last_name=last_name
             )
-
             # Optionally, store additional details (title, phone, address) in a profile model
 
             # Log the user in and clear the session data
@@ -107,12 +112,65 @@ def signup_password(request):
 def signup_pick_pup(request):
     return render(request, 'signup_pick_pup.html')
 
+def cancel(request) -> HttpResponse:
+    return redirect('signup_password')
+
+def success(request) -> HttpResponse:
+    user_id = request.session.get('user_id')
+    if user_id:
+        sponsor_user = SponsorUser.objects.get(pk=user_id)
+        login(request, sponsor_user)
+        # Clear session data after logging the user in
+        request.session.flush()
+    return redirect('home')
+
+def create_checkout_session(request):
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': 'price_1QzNqBFWIxHlXk0GAJjN0JXF',
+                    'quantity': 1,
+                },
+            ],
+            mode='subscription',
+            success_url=YOUR_DOMAIN + reverse('success'),
+            cancel_url=YOUR_DOMAIN + reverse('cancel')
+        )
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    return redirect(checkout_session.url, code=303)
+
+def custom_login(request):
+    error = None
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        try:
+            sponsor_user = SponsorUser.objects.get(email=email)
+        except SponsorUser.DoesNotExist:
+            error = "Invalid email or password"
+        else:
+            if check_password(password, sponsor_user.password):
+                # Credentials are valid — log the user in
+                login(request, sponsor_user)
+                # Optionally, store user id in session as well if you need it later:
+                request.session['user_id'] = sponsor_user.id
+                return redirect('home')
+            else:
+                error = "Invalid email or password"
+    return render(request, 'login.html', {'error': error})
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 # ------------- Home/Dashboard views -------------
 @login_required
 def home(request):
-    return render(request, 'dashboard.html')
+    # Retrieve the SponsorUser from the session using the stored id
+    user = SponsorUser.objects.get(pk=request.session['user_id'])
+    return render(request, 'dashboard.html', {'user': user})
+
 
 # ------------- User details views -------------
 @login_required
@@ -122,11 +180,28 @@ def user_details(request):
 # ------------- Pupdate views -------------
 @login_required
 def pupdates(request):
-    return render(request, 'pupdates/feed.html', {'pups': sample_pups})
+    pupdates = Pupdate.objects.all()
+    return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
-def pupdates_details(request):
-    return render(request, 'pupdates/pupdatedetails.html')
+def pupdates_details(request, pupdate_id):
+    pupdate = Pupdate.objects.get(id=pupdate_id)
+    return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
+
+
+# ------------- Pup details -------------
+def pup_about(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_about.html", {"pup": pup})
+
+def pup_videos(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_videos.html", {"pup": pup})
+
+def pup_milestones(request, pup_id):
+    pup = get_object_or_404(Puppy, id=pup_id)
+    return render(request, "pupprofiles/pupprofile_milestones.html", {"pup": pup})
+
 
 
 # ------------- Pup details -------------
