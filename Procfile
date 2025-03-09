@@ -1,1 +1,2 @@
-web: gunicorn 'sponsorapup'.wsgi
+release: python manage.py migrate
+web: gunicorn sponsorapup.wsgi
