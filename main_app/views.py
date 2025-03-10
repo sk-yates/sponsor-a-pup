@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.hashers import check_password
 import stripe
 
+from .decorators import anonymous_required
 from .forms import SignupNameForm, PupdateForm
 from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
@@ -17,12 +18,14 @@ stripe.api_key = "sk_test_51QxYUHFWIxHlXk0GMXtvmjVBmCBKxzKeyWr5IuoICaE0SB9mBcPvf
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
 
+@anonymous_required
 def landing(request):
     return render(request, 'landing.html')
 
 class Login(LoginView):
     template_name = 'login.html'
 
+@anonymous_required
 def create_checkout_session(request):
     # Capture the selected pup from the query parameters, if present
     selected_pup = request.GET.get('selected_pup')
@@ -50,6 +53,7 @@ def success(request) -> HttpResponse:
     # After checkout, redirect to the signup flow.
     return redirect('signup')
 
+@anonymous_required
 def signup(request):
     # Collects name details
     error_message = ''
@@ -68,6 +72,7 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
 
+@anonymous_required
 def signup_address(request):
     # Collects address details
     error_message = ''
@@ -81,6 +86,7 @@ def signup_address(request):
             error_message = 'Please provide your address.'
     return render(request, 'signup_address.html', {'error_message': error_message})
 
+@anonymous_required
 def signup_email_phone(request):
     # Collects email and phone details
     error_message = ''
@@ -96,6 +102,7 @@ def signup_email_phone(request):
             error_message = 'Please provide both your email and phone number.'
     return render(request, 'signup_email_phone.html', {'error_message': error_message})
 
+@anonymous_required
 def signup_password(request):
     # Collects password, creates the SponsorUser, and completes the signup flow.
     error_message = ''
@@ -134,6 +141,7 @@ def signup_password(request):
 def cancel(request) -> HttpResponse:
     return redirect('signup_password')
 
+@anonymous_required
 def custom_login(request):
     # Standard login for existing users
     error = None
@@ -150,7 +158,13 @@ def custom_login(request):
                 return redirect('home')
             else:
                 error = "Invalid email or password"
-    return render(request, 'login.html', {'error': error})
+    
+    # Render the template and set no-cache headers
+    response = render(request, 'login.html', {'error': error})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 @login_required
