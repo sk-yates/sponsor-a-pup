@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-psycopg2-binary = "*"
 django = "*"
+psycopg2-binary = "*"
 pillow = "*"
 stripe = "*"
 whitenoise = "*"
