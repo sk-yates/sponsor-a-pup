@@ -10,8 +10,8 @@ pillow = "*"
 stripe = "*"
 whitenoise = "*"
 gunicorn = "*"
-dj-database-url = "*"
 python-dotenv = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
