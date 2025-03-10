@@ -88,7 +88,7 @@ if 'ON_HEROKU' in os.environ:
             env='DATABASE_URL',
             conn_max_age=600,
             conn_health_checks=True,
-            ssl_require=True,
+            # ssl_require=True,
         ),
     }
 else:
