@@ -9,3 +9,14 @@ def custom_login_required(view_func):
             return redirect('custom_login')
         return view_func(request, *args, **kwargs)
     return wrapper
+
+def anonymous_required(view_func):
+    """
+    Decorator for views that ensures only anonymous (not logged-in) users can access the view.
+    """
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')  # Or your designated page for logged-in users.
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
