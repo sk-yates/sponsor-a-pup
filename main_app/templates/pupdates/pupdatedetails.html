@@ -9,20 +9,22 @@ This page will display the detailed pupdates from the feed cards.
 
 <section class="pupdate-detail-container">
     <div class="pupdate-img">
-        <img src="{{ pupdate.picture_url }}" alt="Pupdate picture" />
+        {% if pupdate.picture_url %}
+        <img src="{{ pupdate.picture_url.url }}" alt="Pupdate picture" />
+        {% endif %}
     </div>
 
     <div class="pupdate-detail-content">
         <h1>{{ pupdate.title }}</h1>
         <h2> {{ pupdate.date }} </h2>
         <h3>{{ pupdate.content }}</h3>
-         {{ pupdate.media_url }} 
+        {{ pupdate.media_url }}
     </div>
 
     <div class="pupdate-actions">
         <a href="{% url 'pupdates-update' pupdate.id %}" class="btn warn">Edit</a>
         <a href="{% url 'pupdates-delete' pupdate.id %}" class="btn danger">Delete</a>
-      </div>
+    </div>
 
 </section>
 

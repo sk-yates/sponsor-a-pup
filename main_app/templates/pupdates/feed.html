@@ -1,35 +1,41 @@
-{% extends 'base.html' %} 
-{% load static %} 
+{% extends 'base.html' %}
+{% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static '' %}"/>
+<link rel="stylesheet" href="{% static '' %}" />
 {% endblock %}
 {% block content %}
 <h1> Your Pupdates </h1>
 <hr />
 
 <div>
-  <a href="/pupdates/create"> <h2>Add a Pupdate</h2></a>
-  <br/>
-<p class="page-content"></p>
+  <a href="/pupdates/create">
+    <h2>Add a Pupdate</h2>
+  </a>
+  <br />
+  <p class="page-content"></p>
 
-<section class="card-container">
-  {% for pupdate in pupdates %}
+  <section class="card-container">
+    {% for pupdate in pupdates %}
     <div class="pupdate-card">
       <a href="/pupdates/{{ pupdate.id }}">
         <div class="card-content">
           <div class="card-img-container">
-            <img
-              src="{{ object.picture_url }}"
-              alt="Pupdate picture"
-            />
+            {% if pupdate.picture_url %}
+            <img src="{{ pupdate.picture_url.url }}" alt="Pupdate picture" />
+            <!-- {% else %}
+              <img
+                src="{% static 'images/default-pupdate.jpg' %}"
+                alt="Default pupdate picture"
+              /> -->
+            {% endif %}
           </div>
           <h2 class="pupdate-card-title">{{ pupdate.title }}</h2>
           <p>{{ pupdate.date }}</p>
         </div>
       </a>
     </div>
-  {% endfor %}
-</section>
+    {% endfor %}
+  </section>
 
 
 
@@ -47,4 +53,4 @@
 
 
 
-{% endblock %}
+  {% endblock %}

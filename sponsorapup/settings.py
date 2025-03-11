@@ -63,7 +63,7 @@ ROOT_URLCONF = 'sponsorapup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'main_app/templates'],  # Add this line to make the tab buttons work
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',  # Add this line to make the tab buttons work
+                'django.template.context_processors.media',  # Add this line to make the media work
             ],
         },
     },
@@ -151,3 +152,4 @@ AUTH_USER_MODEL = 'main_app.SponsorUser'
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
+
