@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static '' %}" />
+<!-- <link rel="stylesheet" href="{% static '' %}" /> -->
 {% endblock %}
 {% block content %}
 
@@ -10,19 +10,23 @@
 
 </section>
 <div>
-<a href="/pups/create"> <h2>Add a Pup</h2></a>
-<br/>
+  <a href="/pups/create">
+    <h2>Add a Pup</h2>
+  </a>
+  <br />
 </div>
 
 
 <section class="card-container">
   {% for pup in pups %}
   <div class="card">
-++++++++++++++++++++++++++++++++++++++++++++++++++
+    ++++++++++++++++++++++++++++++++++++++++++++++++++
     <a href="{% url 'pup-profile' pup.id %}">
       <div class="card-content">
         <div class="card-img-container">
-          <img src="{% static '' %}" alt="alt-text for image" />
+          {% if pup.picture_url %}
+          <img src="{{ pup.picture_url.url }}" alt="Puppy picture" />
+          {% endif %}
         </div>
         <h2 class="card-title">{{ pup.name }}</h2>
         {% if pup.age > 0 %}
@@ -33,7 +37,7 @@
         <p><small>{{ pup.description }}</small></p>
       </div>
     </a>
-++++++++++++++++++++++++++++++++++++++++++++++++++
+    ++++++++++++++++++++++++++++++++++++++++++++++++++
   </div>
   {% endfor %}
 </section>

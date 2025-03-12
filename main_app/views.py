@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import check_password
 import stripe
 
 from .decorators import anonymous_required
-from .forms import SignupNameForm, PupdateForm
+from .forms import SignupNameForm, PuppyForm, PupdateForm
 from .models import Puppy, Pupdate, SponsorUser  # Import SponsorUser instead of User
 
 from django.http import HttpResponse, JsonResponse
@@ -243,6 +243,7 @@ def sample_pup_index(request):
 
 def pup_index(request):
     pups = Puppy.objects.all()
+    print(pups)
     return render(request, 'pupindex/pupindex.html', {'pups': pups})
 
 
@@ -263,8 +264,8 @@ def pup_profile_redirect(request):
 # C - Create
 class PupCreate(CreateView):
     model = Puppy
+    form_class = PuppyForm
     template_name = 'main_app/pup_form.html'
-    fields = ['name', 'breed', 'age', 'description', 'location']
 
 # R - Read
 def pup_profile(request, pup_id):
@@ -275,7 +276,7 @@ def pup_profile(request, pup_id):
 class PupUpdate(UpdateView):
     model = Puppy
     template_name = 'main_app/pup_form.html'
-    fields = ['age', 'description', 'location']
+    fields = ['name', 'breed', 'age', 'description', 'picture_url', 'location', 'user']
 
 # D - Delete
 class PupDelete(DeleteView):

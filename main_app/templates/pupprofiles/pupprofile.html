@@ -8,7 +8,9 @@
 
     <div class="profile-container">
       <div class="pup-img-container">
-        <img src="" alt="Picture of the chosen pup" />
+        {% if pup.picture_url %}
+        <img src="{{ pup.picture_url.url }}" alt="Puppy picture" />
+        {% endif %}
       </div>
       <div class="pup-name-container">
         <h1 class="logo-h1">{{ pup.name }}</h1>

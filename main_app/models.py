@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.hashers import make_password
 
 
-    
+
 
 class SponsorUser(AbstractUser):
     email = models.EmailField(unique=True)
@@ -27,8 +27,6 @@ class SponsorUser(AbstractUser):
         if not self.pk and not self.password.startswith('pbkdf2_'):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
-
-
 
 
 
