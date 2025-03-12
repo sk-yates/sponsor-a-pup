@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pupdate, Puppy
+from .models import Pupdate, Puppy, SponsorUser
 
 class SignupNameForm(forms.Form):
     TITLE_CHOICES = [
@@ -25,6 +25,14 @@ class SignupNameForm(forms.Form):
         max_length=50, required=True, label="Last Name",
         widget=forms.TextInput(attrs={'placeholder': 'Type here...', 'class': 'form-input'})
     )
+
+class PuppyForm(forms.ModelForm):
+    users = forms.ModelMultipleChoiceField(queryset=SponsorUser.objects.all(), required=False, label="Users")
+
+    class Meta:
+        model = Puppy
+        fields = ['name', 'breed', 'age', 'description', 'picture_url', 'location', 'user']
+
 
 
 class PupdateForm(forms.ModelForm):
