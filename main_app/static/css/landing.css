@@ -2,28 +2,28 @@
 
 body {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    min-height: 100vh; /* Ensures full height but allows content growth */
+    justify-content: center;
+    min-height: 100vh;
     margin: 0;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.699)), 
                 url('/static/images/home-background-img.jpg');
-    background-size: cover; /* Ensures it covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents repeating */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-color: #fcfcfc;
   }
 
 .all-landing-container {
-  width: 90%;  /* Responsive width */
-  max-width: 1200px;  /* Prevents it from being too wide */
-  min-width: 320px;  /* Prevents it from being too small */
+  width: 90%;
+  max-width: 1200px;
+  min-width: 320px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center vertically */
+  align-items: center;
   max-height: 100vh;
-  justify-content: space-between; /* Pushes buttons to the bottom */
-  padding-bottom: 10vh; /* Keeps a fixed spacing */
+  justify-content: space-between;
+  padding-bottom: 10vh;
 }
 
 
@@ -79,13 +79,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: clamp(250px, 50vw, 345px); /* Makes width responsive */
-  max-width: 345px; /* Prevents it from being too wide */
+  width: clamp(250px, 50vw, 345px);
+  max-width: 345px;
 }
 
 .btn {
-  text-decoration: none; /* Removes underline */
-  border-radius: 40px; /* Rounded corners */
+  text-decoration: none;
+  border-radius: 40px;
   background-color: #002B5B;
   display: flex;
   padding: 16px 0px;
