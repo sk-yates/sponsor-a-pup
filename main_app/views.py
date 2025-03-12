@@ -169,7 +169,11 @@ def custom_login(request):
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 @login_required
 def home(request):
-    return render(request, 'dashboard.html', {'user': request.user})
+    response = render(request, 'dashboard.html', {'user': request.user})
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 # ------------- User details views -------------
 @login_required
