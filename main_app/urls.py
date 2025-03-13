@@ -15,6 +15,7 @@ urlpatterns = [
     path('create-checkout-session/', views.create_checkout_session, name='create-checkout-session'),
     path('cancel/', views.cancel, name='cancel'),
     path('success/', views.success, name='success'),
+    path('stripe-webhook/', views.stripe_webhook, name='stripe_webhook'),
     
 
 # ++++++++++++++++++++++++++ SPONSOR Routes ++++++++++++++++++++++++++

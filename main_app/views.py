@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.hashers import check_password
 import stripe
+import json
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from .decorators import anonymous_required
 from .forms import SignupNameForm, PuppyForm, PupdateForm
@@ -15,6 +18,44 @@ from django.http import HttpResponse, JsonResponse
 # In production, load these values from environment variables.
 YOUR_DOMAIN = "http://localhost:8000"
 stripe.api_key = "sk_test_51QxYUHFWIxHlXk0GMXtvmjVBmCBKxzKeyWr5IuoICaE0SB9mBcPvfzBU8YJcS3b8QkFAuxA4947GfFYifYjZprpH00Wk39saOf"  # Your Stripe secret key
+
+# ++++++++++++++++++++++++++ STRIPE Webhook ++++++++++++++++++++++++++
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET  # Set this in your settings/.env file
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the event based on its type
+    if event['type'] == 'customer.subscription.created':
+        subscription = event['data']['object']
+        # Process the subscription created event (e.g., mark subscription as active in your database)
+        # Example: update_subscription_status(subscription, 'active')
+    elif event['type'] == 'customer.subscription.updated':
+        subscription = event['data']['object']
+        # Process the subscription updated event (e.g., update details in your database)
+        # Example: update_subscription_status(subscription, 'updated')
+    elif event['type'] == 'customer.subscription.deleted':
+        subscription = event['data']['object']
+        # Process the subscription cancelled event
+        # Example: update_subscription_status(subscription, 'cancelled')
+    else:
+        # Unexpected event type
+        print('Unhandled event type {}'.format(event['type']))
+
+    return HttpResponse(status=200)
 
 # ++++++++++++++++++++++++++ SPONSOR Sign-up/Sign-in ++++++++++++++++++++++++++
 
@@ -34,6 +75,7 @@ def create_checkout_session(request):
 
     try:
         checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["bacs_debit"],
             line_items=[
                 {
                     'price': 'price_1QzNqBFWIxHlXk0GAJjN0JXF',
