@@ -229,6 +229,12 @@ def pupdates(request):
     return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
+def feed_view(request):
+    user = request.user
+    pupdates = Pupdate.objects.filter(pup__user=user)
+    return render(request, 'feed_view.html', {'pupdates': pupdates})
+
+@login_required
 def pupdates_details(request, pupdate_id):
     pupdate = Pupdate.objects.get(id=pupdate_id)
     return render(request, 'pupdates/pupdatedetails.html', {'pupdate': pupdate})
