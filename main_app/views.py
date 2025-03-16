@@ -300,7 +300,7 @@ def pup_index(request):
 
 # xaiver pick up pup code
 def signup_pick_pup(request):
-    pups = Puppy.objects.all()  # Fetch all puppies from the database
+    pups = Puppy.objects.filter(is_sponsorable=True)  # Fetch all puppies from the database
     return render(request, "signup_pick_pup.html", {"pups": pups})
 
 def pup_profile_redirect(request):

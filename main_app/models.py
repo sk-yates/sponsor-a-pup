@@ -37,6 +37,7 @@ class Puppy(models.Model):
     description = models.TextField(max_length=500)
     picture_url = models.ImageField(upload_to='puppy_images/', max_length=400, blank=True, null=True)
     location = models.CharField(max_length=100)
+    is_sponsorable = models.BooleanField(default=False)
     
     user = models.ManyToManyField(SponsorUser, blank=True)
 
