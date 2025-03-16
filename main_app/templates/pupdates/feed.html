@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static '' %}" />
 {% endblock %}
 {% block content %}
-<h1> Your Pupdates </h1>
+<h1> All Published Pupdates </h1>
 <hr />
 
 <div>
@@ -22,11 +22,11 @@
           <div class="card-img-container">
             {% if pupdate.picture_url %}
             <img src="{{ pupdate.picture_url.url }}" alt="Pupdate picture" />
-            <!-- {% else %}
+            {% else %}
               <img
                 src="{% static 'images/default-pupdate.jpg' %}"
                 alt="Default pupdate picture"
-              /> -->
+              />
             {% endif %}
           </div>
           <h2 class="pupdate-card-title">{{ pupdate.title }}</h2>

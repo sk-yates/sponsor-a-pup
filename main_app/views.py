@@ -226,13 +226,17 @@ def user_details(request):
 @login_required
 def pupdates(request):
     pupdates = Pupdate.objects.all()
+    print(f"Retrieved {pupdates.count()} pupdates")  # Debugging statement
+    for pupdate in pupdates:
+        print(f"Pupdate ID: {pupdate.id}, Title: {pupdate.title}")  # Debugging statement
     return render(request, 'pupdates/feed.html', {'pupdates': pupdates})
 
 @login_required
 def feed_view(request):
     user = request.user
     pupdates = Pupdate.objects.filter(pup__user=user)
-    return render(request, 'feed_view.html', {'pupdates': pupdates})
+    print(f"User: {user.username}, Pupdates: {pupdates}") # Debugging
+    return render(request, 'pupdates/feed_view.html', {'pupdates': pupdates})
 
 @login_required
 def pupdates_details(request, pupdate_id):
@@ -293,8 +297,6 @@ def pup_index(request):
     pups = Puppy.objects.all()
     print(pups)
     return render(request, 'pupindex/pupindex.html', {'pups': pups})
-
-
 
 # xaiver pick up pup code
 def signup_pick_pup(request):

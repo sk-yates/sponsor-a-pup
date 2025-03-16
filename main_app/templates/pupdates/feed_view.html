@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="" />
+{% endblock %}
+
 
 {% block content %}
   <h1>Your Pupdates</h1>
@@ -6,12 +11,16 @@
     <div class="pupdate">
       <h2>{{ pupdate.title }}</h2>
       <p>{{ pupdate.content }}</p>
+      
+      
       {% if pupdate.picture_url %}
         <img src="{{ pupdate.picture_url.url }}" alt="Pupdate Image">
       {% endif %}
+      
       {% if pupdate.media_url %}
         <a href="{{ pupdate.media_url }}">Media Link</a>
       {% endif %}
+      
       <p>Date: {{ pupdate.date }}</p>
     </div>
   {% endfor %}

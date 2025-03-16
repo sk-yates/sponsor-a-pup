@@ -15,7 +15,7 @@ class SponsorUser(AbstractUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     user_tel = models.CharField(max_length=20)
-    contact_pref = models.JSONField(default=list)
+    # contact_pref = models.JSONField(default=list)
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
 
