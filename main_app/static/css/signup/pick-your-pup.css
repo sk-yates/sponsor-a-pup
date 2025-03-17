@@ -117,14 +117,14 @@ p {
     bottom: 64px; /* Ensures padding from the bottom */
     left: 50%;
     transform: translateX(-50%); /* Centers the button horizontally */
-    width: clamp(140px, 15vw, 160px); /* Responsive width */
-    height: clamp(140px, 15vw, 160px); /* Matches width */
+    width: clamp(100px, 12vw, 140px);
+    height: clamp(100px, 12vw, 140px);
     display: flex;
     justify-content: center;
     z-index: 1000;
   }
   
-  .btn {
+.btn {
     width: 100%; /* Makes sure it fills the container */
     height: 100%; /* Keeps width and height equal */
     aspect-ratio: 1 / 1; /* Ensures it stays a perfect circle */
