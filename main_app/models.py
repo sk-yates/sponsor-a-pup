@@ -18,6 +18,8 @@ class SponsorUser(AbstractUser):
     # contact_pref = models.JSONField(default=list)
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
+    stripe_customer_id = models.CharField(max_length=255)
+
 
     def __str__(self):
         return self.username
