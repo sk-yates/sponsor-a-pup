@@ -15,7 +15,7 @@ class SponsorUser(AbstractUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     user_tel = models.CharField(max_length=20)
-    contact_pref = models.JSONField(default=list)
+    # contact_pref = models.JSONField(default=list)
     spon_pups = models.ManyToManyField('Puppy')
     created_at = models.DateTimeField(auto_now_add=True)
     stripe_customer_id = models.CharField(max_length=255)
@@ -39,7 +39,8 @@ class Puppy(models.Model):
     description = models.TextField(max_length=500)
     picture_url = models.ImageField(upload_to='puppy_images/', max_length=400, blank=True, null=True)
     location = models.CharField(max_length=100)
-
+    is_sponsorable = models.BooleanField(default=False)
+    
     user = models.ManyToManyField(SponsorUser, blank=True)
 
     def __str__(self):

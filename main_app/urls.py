@@ -32,6 +32,8 @@ urlpatterns = [
     path('pupdates/<int:pk>/update/', views.PupdateUpdate.as_view(), name='pupdates-update'),
     path('pupdates/<int:pk>/delete/', views.PupdateDelete.as_view(), name='pupdates-delete'),
     
+    path('feed/', views.feed_view, name='feed'),
+    
 # ------------- Pup details Routes -------------
     path('pup/<int:pup_id>/about/', views.pup_about, name='pup-about'),
     path('pup/<int:pup_id>/videos/', views.pup_videos,name='pup-videos'),
