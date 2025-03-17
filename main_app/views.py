@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.hashers import check_password
+from django.urls import reverse
 import stripe
 import json
 from django.conf import settings
@@ -120,12 +121,14 @@ def signup_address(request):
     error_message = ''
     if request.method == 'POST':
         address = request.POST.get('address')
+        contact_pref = request.POST.getlist('contact_pref')
         if address:
             request.session['signup_address'] = address
+            request.session['contact_pref'] = contact_pref
             # Redirect to the next step: Email & Phone collection
             return redirect('signup_email_phone')
         else:
-            error_message = 'Please provide your address.'
+            error_message = 'Please provide your address and contact preferences.'
     return render(request, 'signup_address.html', {'error_message': error_message})
 
 @anonymous_required
@@ -162,6 +165,13 @@ def signup_password(request):
             title      = request.session.get('signup_title')
             first_name = request.session.get('signup_first_name')
             last_name  = request.session.get('signup_last_name')
+            contact_pref = request.session.get('contact_pref', [])
+
+             # Create a Stripe Customer
+            stripe_customer = stripe.Customer.create(
+                email=email,
+                name=f"{first_name} {last_name}"
+            )
 
             # Create the SponsorUser (using email as username)
             sponsor_user = SponsorUser.objects.create_user(
@@ -169,7 +179,9 @@ def signup_password(request):
                 email=email,
                 password=password,
                 first_name=first_name,
-                last_name=last_name
+                last_name=last_name,
+                stripe_customer_id=stripe_customer.id,
+                contact_pref=contact_pref
             )
             # Optionally, store additional details (like title, phone, address) via a profile model
 
@@ -275,7 +287,19 @@ def my_sponsorship(request):
 
 @login_required
 def my_subscription(request):
-    return render(request, 'sponsorships/mysubscription.html')
+    stripe_customer_id = request.user.stripe_customer_id
+    if not stripe_customer_id:
+        return HttpResponse("Stripe customer not found.", status=400)
+    
+    try:
+        portal_session = stripe.billingPortal.Session.create(
+            customer=stripe_customer_id,
+            return_url=YOUR_DOMAIN + reverse('home'),
+        )
+    except Exception as e:
+        return HttpResponse(f"Error creating portal session: {e}", status=500)
+    
+    return redirect(portal_session.url, code=303)
 
 
 # ++++++++++++++++++++++++++ STAFF VIEWS ++++++++++++++++++++++++++
