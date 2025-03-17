@@ -8,7 +8,6 @@
     {% if error_message %}
       <p class="error-text">{{ error_message }}</p>
     {% endif %}
-
     <form action="" method="post" class="form-container" autocomplete="off">
       {% csrf_token %}
       <div class="form-label-input-container">
@@ -18,7 +17,21 @@
           <p class="error-text">{{ form.address.errors }}</p>
         {% endif %}
       </div>
-  
+      <div class="form-label-input-container">
+        <p class="logo-h1">How would you like to be contacted? (Select all that apply):</p>
+        <label>
+          <input type="checkbox" name="contact_pref" value="email"> Email
+        </label>
+        <label>
+          <input type="checkbox" name="contact_pref" value="text"> Text
+        </label>
+        <label>
+          <input type="checkbox" name="contact_pref" value="phone"> Phone
+        </label>
+        <label>
+          <input type="checkbox" name="contact_pref" value="post"> Post
+        </label>
+      </div>
       <div class="signup-btn-container">
         <button type="submit" class="btn submit">
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
