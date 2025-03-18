@@ -1,49 +1,61 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/png" href="{% static '' %}" />
-    <title>Sponsor a Puppy</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% block head %} 
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" type="image/png" href="{% static '' %}" />
+  <title>Sponsor a Puppy</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+  <header>
+    <div class="header-logo-container">
+      <a href="/home">
+        <img src="{% static '' %}" alt="Guide Dogs Logo" />
+      </a>
+    </div>
+    <nav>
+      {% if perms.mains_app.can_view_all_elements %}
+      <ul>
+        <!-- StaffUser views -->
+        <li><a href="/home">Home</a></li>
+        <li><a href="/pupdates">Pupdates</a></li>
+        <li><a href="/pup-index">Pups Index (From DB)</a></li>
+        <li><a href="/pups/create"> Add a Pup</a></li>
+        <li>
+          <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </li>
+      </ul>
+      {% else %}
+      <ul>
+        <!-- SponsorUser views -->
+        <li><a href="/home">Home</a></li>
+        <li><a href="/feed">Pupdates</a></li>
+        <li><a href="/my-details">My Details</a></li>
+        <li><a href="/my-sponsorship">My Sponsorship</a></li>
+        <li>
+          <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </li>
+      </ul>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% block content %}
     {% endblock %}
-  </head>
-  <body>
-    <header>
-      <div class="header-logo-container">
-        <a href="/home">
-          <img src="{% static '' %}" alt="Guide Dogs Logo" />
-        </a>
-      </div>
-      <nav>
-        <ul>
-          <h3> User views </h3>
-          <li><a href="/home">Home</a></li>
-          <li><a href="/pupdates">Pupdates</a></li>
-          <li><a href="/my-details">My Details</a></li>
-          <li><a href="/my-sponsorship">My Sponsorship</a></li>
-          <li>
-            <form id="logout-form" method="post" action="{% url 'logout' %}">
-              {% csrf_token %}
-              <button type="submit">Log out</button>
-            </form>
-          </li>
-        </ul>
-        <ul>
-          <h3> Staff views </h3>
-          <li><a href="/home">Home</a></li>
-          <li><a href="/pupdates">Pupdates</a></li>
-          <li><a href="/pup-index">Pups Index (From DB)</a></li>
-          <li><a href="/pups/create"> Add a Pup</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-     {% block content %}
-     {% endblock %}
-     </main>
-  </body>
+  </main>
+</body>
+
 </html>
