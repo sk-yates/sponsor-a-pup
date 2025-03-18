@@ -23,6 +23,11 @@
           <input type="radio" id="pup_{{ forloop.counter }}" name="selected_pup" value="{{ pup.id }}">
           <label for="pup_{{ forloop.counter }}" class="pup-card-label">
             <div class="pup-details">
+              <div class="pup-img-container">
+                {% if pup.picture_url %}
+                <img src="{{ pup.picture_url.url }}" alt="Puppy picture" />
+                {% endif %}
+              </div>
               <strong>{{ pup.name }}</strong>
               <p>{{ pup.description }}</p>
             </div>
