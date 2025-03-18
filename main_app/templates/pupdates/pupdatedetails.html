@@ -21,10 +21,12 @@ This page will display the detailed pupdates from the feed cards.
         {{ pupdate.media_url }}
     </div>
 
+    {% if perms.main_app.can_edit_all_elements %}
     <div class="pupdate-actions">
         <a href="{% url 'pupdates-update' pupdate.id %}" class="btn warn">Edit</a>
         <a href="{% url 'pupdates-delete' pupdate.id %}" class="btn danger">Delete</a>
     </div>
+    {% endif %}
 
 </section>
 

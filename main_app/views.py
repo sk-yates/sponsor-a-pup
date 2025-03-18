@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.hashers import check_password
 from django.urls import reverse
@@ -236,6 +236,7 @@ def user_details(request):
 
 # ------------- Pupdate views -------------
 @login_required
+@permission_required('main_app.can_view_all_elements', raise_exception=True)
 def pupdates(request):
     pupdates = Pupdate.objects.all()
     print(f"Retrieved {pupdates.count()} pupdates")  # Debugging statement
@@ -317,6 +318,7 @@ def my_subscription(request):
 def sample_pup_index(request):
     return render(request, 'pupindex/sampleindex.html', {'pups': sample_pups})
 
+@permission_required('main_app.can_view_all_elements', raise_exception=True)
 def pup_index(request):
     pups = Puppy.objects.all()
     print(pups)
@@ -324,7 +326,7 @@ def pup_index(request):
 
 # xaiver pick up pup code
 def signup_pick_pup(request):
-    pups = Puppy.objects.filter(is_sponsorable=True)  # Fetch all puppies from the database
+    pups = Puppy.objects.filter(is_sponsorable=True)  # Filter by is_sponsorable for only sponsorable pups
     return render(request, "signup_pick_pup.html", {"pups": pups})
 
 def pup_profile_redirect(request):
