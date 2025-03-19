@@ -81,7 +81,21 @@ body {
 .pup-cards-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 24px; /* Space between cards */
+  max-height: calc(3 * 160px + 48px); /* Adjust based on the card height */
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding-right: 8px; /* Prevents scrollbar from overlapping content */
+}
+
+.pup-cards-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pup-cards-container::-webkit-scrollbar-thumb {
+}
+
+.pup-cards-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .pup-card {
@@ -99,8 +113,8 @@ body {
 }
 
 .pup-img-container {
-  width: clamp(87px, 15vw, 150px);
-  height: clamp(87px, 15vw, 150px); /* Ensures a square shape */
+  width: clamp(87px, 10vw, 160px);
+  height: clamp(87px, 10vw, 160px); /* Ensures a square shape */
   flex-shrink: 0; /* Prevents it from shrinking */
   display: flex;
   justify-content: center;
@@ -119,7 +133,7 @@ body {
 .pup-text-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .pick-pup-h2 {
@@ -138,8 +152,6 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%; /* Ensures text doesn't overflow */
-  line-height: 1.5em; /* Adjust based on font size */
-  max-height: 4.5em; /* 3 lines of text */
 }
 
 .tab-link {
