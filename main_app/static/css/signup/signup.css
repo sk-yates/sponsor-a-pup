@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
 body {
   display: flex;
@@ -12,26 +12,39 @@ body {
 }
 
 .all-signup-container {
-  width: 90%;  /* Responsive width */
-  max-width: 1200px;  /* Prevents it from being too wide */
-  min-width: 320px;  /* Prevents it from being too small */
+  width: 90%; /* Responsive width */
+  max-width: 1200px; /* Prevents it from being too wide */
+  min-width: 320px; /* Prevents it from being too small */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center vertically */
-  max-height: 100vh;
+  min-height: 100vh; /* Allow content to extend beyond viewport */
   justify-content: center; /* Pushes buttons to the bottom */
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Keep form centered horizontally */
-  gap: 10vh; /* Space between form elements */
+  align-items: center;
+  gap: 64px;
   width: 100%;
-  position: relative; /* Allows absolute positioning inside */
-  min-height: 80vh; /* Ensures the form has enough height */
-  margin: 0;
+  position: relative;
+  max-height: calc(100vh - 180px); /* Adjust based on button height */
+  overflow-y: auto; /* Enables vertical scrolling */
+  padding-right: 8px; /* Prevents scrollbar from overlapping content */
+}
+
+.form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background: transparent; /* Makes scrollbar visible */
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .form-label-input-container {
@@ -43,28 +56,29 @@ body {
 }
 
 .logo-h1 {
-  color: #002B5B;
+  color: #002b5b;
   font-family: "Hagrid Text Trial";
-  font-size: clamp(48px, 4vw, 60px);
+  font-size: clamp(28px, 4vw, 48px);
   font-style: normal;
   font-weight: 800;
   line-height: normal;
   letter-spacing: -0.54px;
   text-align: left; /* Ensure text aligns left */
   width: 100%; /* Ensures it spans full width */
+  margin: 0px;
 }
 
 .form-dropdown {
   appearance: none; /* Remove default browser styles */
   border: none; /* Remove borders */
   background: transparent;
-  border-bottom: 2px solid #ECEDEE;
+  border-bottom: 2px solid #ecedee;
   padding: 10px 5px;
   width: 100%; /* Full width */
-  color: #002B5B;
+  color: #002b5b;
   cursor: pointer;
   outline: none;
-  font-family: 'Quicksand';
+  font-family: "Quicksand";
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -80,25 +94,25 @@ body {
 }
 
 .form-input {
-  width: 100%;  /* Adjust to full width of parent */
+  width: 100%; /* Adjust to full width of parent */
   border: none; /* Remove border */
-  border-bottom: 2px solid #ECEDEE; /* Underline effect */
-  font-size: 20px;
+  border-bottom: 2px solid #ecedee; /* Underline effect */
+  font-size: 16px;
   padding: 10px 5px;
   background: transparent; /* Remove background */
   outline: none; /* Remove focus outline */
-  color: #002B5B;
-  font-family: 'Quicksand';
+  color: #002b5b;
+  font-family: "Quicksand";
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.28px;
   font-size: 24px;
-
 }
 
 .form-input::placeholder {
-  color: #C9D1D5;
+  color: #c9d1d5;
+  font-size: 16px;
 }
 
 .signup-btn-container {
@@ -106,8 +120,8 @@ body {
   bottom: 64px; /* Ensures padding from the bottom */
   left: 50%;
   transform: translateX(-50%); /* Centers the button horizontally */
-  width: clamp(140px, 15vw, 160px); /* Responsive width */
-  height: clamp(140px, 15vw, 160px); /* Matches width */
+  width: clamp(100px, 15vw, 160px); /* Responsive width */
+  height: clamp(100px, 15vw, 160px); /* Matches width */
   display: flex;
   justify-content: center;
   z-index: 1000;
@@ -118,7 +132,7 @@ body {
   height: 100%; /* Keeps width and height equal */
   aspect-ratio: 1 / 1; /* Ensures it stays a perfect circle */
   border-radius: 50%; /* Ensures it's always a circle */
-  background-color: #FF621E;
+  background-color: #ff621e;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,16 +147,17 @@ body {
 }
 
 .btn:hover {
-transform: scale(0.95) rotate(90deg);
+  transform: scale(0.95) rotate(90deg);
 }
 
 p {
-  font-family: 'Quicksand';
+  font-family: "Quicksand";
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.28px;
-  color: #4B4B4B;;
+  color: #4b4b4b;
+  margin: 0;
 }
 
 .guide-dog-img-container {
@@ -153,7 +168,31 @@ p {
 }
 
 .guide-dog-img-container img {
-  width: clamp(200px, 15vw, 500px);  /* Small size, adjust as needed */
+  width: clamp(100px, 15vw, 500px); /* Small size, adjust as needed */
   height: auto; /* Maintain aspect ratio */
   opacity: 0.8; /* Slight transparency if needed */
+}
+
+.scroll-spacer {
+  height: 20vh;
+  width: 100%;
+}
+
+.logo-h2 {
+  color: #002b5b;
+  font-family: "Hagrid Text Trial";
+  font-size: clamp(18px, 4vw, 28px);
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: -0.54px;
+  text-align: center; /* Ensure text aligns left */
+  width: 100%; /* Ensures it spans full width */
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: start;
 }

@@ -8,9 +8,9 @@ django = "*"
 psycopg2-binary = "*"
 pillow = "*"
 stripe = "*"
+python-dotenv = "*"
 whitenoise = "*"
 gunicorn = "*"
-python-dotenv = "*"
 dj-database-url = "*"
 
 [dev-packages]

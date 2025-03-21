@@ -1,5 +1,6 @@
 {% load static %}
 {% block head %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="{% static 'css/signup/pick-your-pup.css' %}" />
 {% endblock %}
 {% block content %}
@@ -20,15 +21,23 @@
       <div class="pup-cards-container">
         {% for pup in pups %}
         <div class="pup-card">
-          <input type="radio" id="pup_{{ forloop.counter }}" name="selected_pup" value="{{ pup.id }}">
+          <input type="radio" id="pup_{{ forloop.counter }}" name="selected_pup" value="{{ pup.id }}" class="pup-radio-btn">
           <label for="pup_{{ forloop.counter }}" class="pup-card-label">
-            <div class="pup-details">
-              <strong>{{ pup.name }}</strong>
-              <p>{{ pup.description }}</p>
+            <div class="pup-details-container">
+              <div class="pup-img-container">
+                {% if pup.picture_url %}
+                <img src="{{ pup.picture_url.url }}" alt="Puppy picture" class="pup-img"/>
+                {% endif %}
+              </div>
+              <div class="pup-text-container">
+                <h2 class="logo-h2 pick-pup-h2">{{ pup.name }}</h2>
+                <p class="pick-pup-p">{{ pup.description }}</p>
+              </div>
             </div>
           </label>
         </div>
         {% endfor %}
+        <div class="scroll-spacer"></div>
       </div>
 
       <div class="signup-btn-container">

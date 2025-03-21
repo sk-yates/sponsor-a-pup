@@ -1,5 +1,6 @@
 {% load static %}
 {% block head %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="{% static 'css/signup/signup.css' %}" />
 {% endblock %}
 {% block content %}
@@ -25,8 +26,9 @@
         {% if form.phone.errors %}
           <p class="error-text">{{ form.phone.errors }}</p>
         {% endif %}
+        
       </div>
-  
+      <div class="scroll-spacer"></div>
       <div class="signup-btn-container">
         <button type="submit" class="btn submit">
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
