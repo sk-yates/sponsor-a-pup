@@ -5,12 +5,12 @@
 {% endblock %}
 
 <body>
-  <div class="all-signup-container">
+  <div class="all-signup-container-details">
 
     <div class="profile-container">
-      <div class="pup-img-container">
+      <div class="pup-img-container pup-img-container-details">
         {% if pup.picture_url %}
-        <img src="{{ pup.picture_url.url }}" alt="Puppy picture" />
+        <img src="{{ pup.picture_url.url }}" alt="Puppy picture" class="pup-img-details"/>
         {% endif %}
       </div>
       <div class="pup-name-container">
@@ -32,7 +32,7 @@
       <a href="{% url 'pup-videos' pup.id %}"
         class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-videos' %}active{% endif %}">Videos</a>
       <a href="{% url 'pup-milestones' pup.id %}"
-        class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-milestones' %}active{% endif %}">Miletones</a>
+        class="logo-h2 tab-link {% if request.resolver_match.view_name == 'pup-milestones' %}active{% endif %}">Gallery</a>
     </div>
     <div class="divider"></div>
     {% block content %}{% endblock %}
@@ -58,44 +58,3 @@
     {% endif %}
 
 </body>
-
-
-<!-- <section class="">
-
-  <div class="header-container">
-    <a href="">
-      <div class="back-icon"><img src="" alt="back-icon" /></div>
-    </a>
-    <div class="indicator-container">
-      <div class="indicator-1"></div>
-      <div class="indicator-2"></div>
-      <div class="indicator-3"></div>
-      <div class="indicator-4"></div>
-      <div class="indicator-5"></div>
-      <div class="indicator-6"></div>
-    </div>
-  </div>
-
-
-
-  <div class="pup-actions">
-    <a href="{% url 'pup-update' pup.id %}" class="">Edit</a>
-    <a href="{% url 'pup-delete' pup.id %}" class="">Delete</a>
-  </div>
-  </div>
-</section> -->
-
-
-
-
-<!-- <div class="pup-details-container">
-  <div class="tabs-container">
-    <h2 class="logo-h2">About</h2>
-    <h2 class="logo-h2">Activity</h2>
-    <h2 class="logo-h2">Health</h2>
-  </div>
-  <div class="divider"></div>
-  <div class="p-container">
-    <p>{{ pup.description }}</p>
-  </div>
-</div> -->

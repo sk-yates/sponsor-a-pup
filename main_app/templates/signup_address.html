@@ -18,20 +18,33 @@
           <p class="error-text">{{ form.address.errors }}</p>
         {% endif %}
       </div>
-      <div class="form-label-input-container">
-        <p class="logo-h1">How would you like to be contacted? (Select all that apply):</p>
-        <label>
-          <input type="checkbox" name="contact_pref" value="email"> Email
-        </label>
-        <label>
-          <input type="checkbox" name="contact_pref" value="text"> Text
-        </label>
-        <label>
-          <input type="checkbox" name="contact_pref" value="phone"> Phone
-        </label>
-        <label>
-          <input type="checkbox" name="contact_pref" value="post"> Post
-        </label>
+<div class="form-label-input-container">
+  <h2 class="logo-h1">How would you like to be contacted?</h2>
+  <p>Select all that apply:</p>
+
+        <div class="checkbox-container">
+          <div class="checkbox-option">
+            <input type="checkbox" id="email" name="contact_pref" value="email">
+            <label for="email" class="logo-h2">Email</label>
+          </div>
+
+          <div class="checkbox-option">
+            <input type="checkbox" id="text" name="contact_pref" value="text">
+            <label for="text" class="logo-h2">Text</label>
+          </div>
+
+          <div class="checkbox-option">
+            <input type="checkbox" id="phone" name="contact_pref" value="phone">
+            <label for="phone" class="logo-h2">Phone</label>
+          </div>
+
+          <div class="checkbox-option">
+            <input type="checkbox" id="post" name="contact_pref" value="post">
+            <label for="post" class="logo-h2">Post</label>
+          </div>
+        </div>
+
+        <div class="scroll-spacer"></div>
       </div>
       <div class="signup-btn-container">
         <button type="submit" class="btn submit">
