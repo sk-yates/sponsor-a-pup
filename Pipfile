@@ -4,15 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
 psycopg2-binary = "*"
 pillow = "*"
 stripe = "*"
-python-dotenv = "*"
 whitenoise = "*"
 gunicorn = "*"
 dj-database-url = "*"
 cloudinary = "*"
+django = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
