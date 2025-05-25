@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
 {% endblock %}
-{% block content %}
 
 <section class="logo-container">
   <div class="cat-container">
@@ -13,4 +12,8 @@
   <img src="{% static '' %}" alt="alt-text for image" />
 </section>
 
-{% endblock %}
+<div class="dashboard-container">
+  {% block content %}
+    {% include 'pupprofiles/pupprofile.html' %}
+  {% endblock %}
+</div>
