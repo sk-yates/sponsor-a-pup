@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
 
+from cloudinary.models import CloudinaryField
+
 
 
 
@@ -61,7 +63,7 @@ class Puppy(models.Model):
     breed = models.CharField(max_length=100)
     age = models.IntegerField()
     description = models.TextField(max_length=500)
-    picture_url = models.ImageField(upload_to='puppy_images/', max_length=400, blank=True, null=True)
+    picture_url = CloudinaryField('image', blank=True, null=True) 
     location = models.CharField(max_length=100)
     is_sponsorable = models.BooleanField(default=False)
     
@@ -79,7 +81,7 @@ class Puppy(models.Model):
 class Pupdate(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField(max_length=300)
-    picture_url = models.ImageField(upload_to='pupdate_images/', max_length=400, blank=True, null=True)
+    picture_url = CloudinaryField('image', blank=True, null=True)
     media_url = models.CharField(max_length=400, blank=True, null=True)
     date = models.DateField('Pupdate date')
 

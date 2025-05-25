@@ -84,8 +84,8 @@ def create_checkout_session(request):
                 },
             ],
             mode='subscription',
-            success_url=YOUR_DOMAIN + reverse('success'),
-            cancel_url=YOUR_DOMAIN + reverse('cancel')
+            success_url = request.build_absolute_uri(reverse('success')),
+            cancel_url = request.build_absolute_uri(reverse('cancel')),
         )
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -223,7 +223,8 @@ def custom_login(request):
 # ++++++++++++++++++++++++++ SPONSOR VIEWS ++++++++++++++++++++++++++
 @login_required
 def home(request):
-    response = render(request, 'dashboard.html', {'user': request.user})
+    pup = request.user.spon_pups.first()  # Get the first sponsored puppy
+    response = render(request, 'dashboard.html', {'user': request.user, 'pup': pup})
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
@@ -326,7 +327,14 @@ def pup_index(request):
 
 # xaiver pick up pup code
 def signup_pick_pup(request):
-    pups = Puppy.objects.filter(is_sponsorable=True)  # Filter by is_sponsorable for only sponsorable pups
+    pups = Puppy.objects.filter(is_sponsorable=True)  # Fetch sponsorable puppies
+    if request.method == "POST":
+        selected_pup_id = request.POST.get("selected_pup")  # Get the selected puppy's ID
+        if selected_pup_id and selected_pup_id.isdigit():
+            selected_pup = Puppy.objects.filter(id=selected_pup_id).first()
+            if selected_pup:
+                request.user.spon_pups.add(selected_pup)  # Add the puppy to the user's sponsored puppies
+                return redirect("home")  # Redirect to the home page
     return render(request, "signup_pick_pup.html", {"pups": pups})
 
 def pup_profile_redirect(request):
