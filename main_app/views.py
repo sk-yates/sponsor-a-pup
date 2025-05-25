@@ -180,9 +180,17 @@ def signup_password(request):
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
+                user_tel=phone,
+                address=address,
                 stripe_customer_id=stripe_customer.id,
-                contact_pref=contact_pref
+                contact_pref=contact_pref,
             )
+
+            selected_pup_id = request.session.get('selected_pup')
+            if selected_pup_id:
+                pup = Puppy.objects.filter(id=selected_pup_id).first()
+                if pup:
+                    sponsor_user.spon_pups.add(pup)
             # Optionally, store additional details (like title, phone, address) via a profile model
 
             # Log in the user
